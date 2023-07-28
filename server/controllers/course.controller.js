@@ -12,25 +12,26 @@ export const getCourse = async (req, res) => {
 };
 
 export const createCourse = async (req, res) => {
-  const { COU_NAME, COU_YEAR } = req.body;
+  const { COU_NAME, COU_YEAR, COU_PERIOD } = req.body;
   const [rows] = await pool.query(
-    "INSERT INTO COURSE (COU_NAME, COU_YEAR) VALUES (?, ?)",
-    [COU_NAME, COU_YEAR]
+    "INSERT INTO COURSE (COU_NAME, COU_YEAR, COU_PERIOD) VALUES (?, ?, ?)",
+    [COU_NAME, COU_YEAR, COU_PERIOD]
   );
   res.send({
     COU_ID: rows.insertId,
     COU_NAME,
     COU_YEAR,
+    COU_PERIOD,
   });
 };
 
 export const updateCourse = async (req, res) => {
   const { id } = req.params;
-  const { COU_NAME, COU_YEAR } = req.body;
+  const { COU_NAME, COU_YEAR, COU_PERIOD } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE COURSE SET COU_NAME = ?, COU_YEAR = ? WHERE COU_ID = ?",
-    [COU_NAME, COU_YEAR, id]
+    "UPDATE COURSE SET COU_NAME = IFNULL(?, COU_NAME), COU_YEAR = IFNULL(?, COU_YEAR), COU_PERIOD = IFNULL(?, COU_PERIOD) WHERE COU_ID = ?",
+    [COU_NAME, COU_YEAR, COU_PERIOD, id]
   );
 
   if (result.affectedRows === 0)
@@ -38,7 +39,9 @@ export const updateCourse = async (req, res) => {
       message: "Course not found",
     });
 
-  const [rows] = await pool.query("SELECT * FROM COURSE WHERE COU_ID = ?", [id]);
+  const [rows] = await pool.query("SELECT * FROM COURSE WHERE COU_ID = ?", [
+    id,
+  ]);
 
   res.json(rows);
 };
