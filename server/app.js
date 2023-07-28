@@ -4,6 +4,7 @@ import cors from "cors";
 
 import courseRoute from "./routes/course.routes.js";
 import subjectRoute from "./routes/subject.routes.js";
+import slotRoute from "./routes/slot.routes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(
 
 app.use("/", courseRoute);
 app.use("/", subjectRoute);
+app.use("/", slotRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({
