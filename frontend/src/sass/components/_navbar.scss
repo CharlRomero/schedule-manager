@@ -1,0 +1,17 @@
+@use "../tools/mixins" as mixin;
+@use "../base/variables" as variable;
+
+.Navbar {
+  background-color: aqua;
+  @include mixin.flex(flex-start, center, column);
+  gap: 1.25rem;
+  padding: 0.625rem;
+  width: 4.375rem;
+  height: 100vh;
+  position: fixed;
+
+  &-img {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+}

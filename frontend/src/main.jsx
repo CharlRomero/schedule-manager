@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App.jsx";
 import { Schedule } from "./pages/Schedule.jsx";
+import { Course } from "./pages/Course.jsx";
 
 import "./sass/style.scss";
 
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route element={<App />}>
           <Route path="/" element={<Schedule />} />
+          <Route path="/course" element={<Course />} />
         </Route>
       </Routes>
     </BrowserRouter>
