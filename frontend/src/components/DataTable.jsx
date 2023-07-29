@@ -1,21 +1,19 @@
-export const DataTable = ({ title, th, children }) => {
+export const DataTable = ({ title, thead, children }) => {
   return (
     <section className="DataTable">
       <div className="DataTable-title">
         <h2>{title}</h2>
       </div>
-      <div className="DataTable-table">
-        <table>
+      <div className="DataTable-sectable">
+        <table className="DataTable-table">
           <thead>
             <tr>
-              {th.map((element, key) => (
-                <th key={key}>{element.name}</th>
+              {thead.map((element, key) => (
+                <th key={key}>{element}</th>
               ))}
             </tr>
           </thead>
-          <tbody>
-            {children}
-          </tbody>
+          <tbody className="DataTable-tbody">{children}</tbody>
         </table>
       </div>
     </section>

@@ -1,3 +1,6 @@
 @use "./base/reset";
 
 @forward "./components/navbar";
+@forward "./components/datatable";
+
+@forward "./pages/course";
