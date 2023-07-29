@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import {
+  getCourses,
   getCourse,
   createCourse,
   updateCourse,
@@ -8,7 +9,8 @@ import {
 
 const router = Router();
 
-router.get("/course", getCourse);
+router.get("/course", getCourses);
+router.get("/course/:id", getCourse);
 router.post("/course", createCourse);
 router.patch("/course/:id", updateCourse);
 

@@ -1,9 +1,24 @@
 import { pool } from "../database.js";
 
-export const getCourse = async (req, res) => {
+export const getCourses = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM COURSE_VW");
     res.json(rows);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something goes wrong",
+    });
+  }
+};
+
+export const getCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [row] = await pool.query("SELECT * FROM COURSE_VW WHERE COU_ID = ?", [
+      id,
+    ]);
+    res.json(row);
   } catch (error) {
     return res.status(500).json({
       message: "Something goes wrong",
