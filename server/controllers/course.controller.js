@@ -2,7 +2,7 @@ import { pool } from "../database.js";
 
 export const getCourse = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM COURSE");
+    const [rows] = await pool.query("SELECT * FROM COURSE_VW");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({

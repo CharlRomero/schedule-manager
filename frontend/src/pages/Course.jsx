@@ -4,7 +4,7 @@ import { DataTable } from "../components/DataTable";
 
 const apiURL = import.meta.env.VITE_API;
 
-const thead = ["N", "Paralelo", "Año", "Periodo"];
+const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo"];
 
 export const Course = () => {
   const URL = `${apiURL}course`;
@@ -16,11 +16,12 @@ export const Course = () => {
         {courses.map((course, key) => (
           <tr key={key}>
             <td className="DataTable-td">{course.COU_ID}</td>
-            <td className="DataTable-td">{course.COU_NAME}</td>
-            <td className="DataTable-td">{course.COU_YEAR}</td>
-            <td className="DataTable-td">{course.COU_PERIOD}</td>
+            <td className="DataTable-td">{course.YEAR_LEVEL}</td>
+            <td className="DataTable-td">{course.ROOM_NAME}</td>
+            <td className="DataTable-td">{course.YEAR_TYPE}</td>
+            <td className="DataTable-td">{course.PER_CODE}</td>
             <td className="DataTable-td">
-              <button onClick={() => alert("Click")}>
+              <button onClick={() => alert(course.COU_ID)}>
                 <svg
                   clip-rule="evenodd"
                   fill-rule="evenodd"

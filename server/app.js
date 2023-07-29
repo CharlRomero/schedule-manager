@@ -19,6 +19,7 @@ app.use(
   })
 );
 
+//Rutas
 app.use("/", courseRoute);
 app.use("/", subjectRoute);
 app.use("/", slotRoute);
