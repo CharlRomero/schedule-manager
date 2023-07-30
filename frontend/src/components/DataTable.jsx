@@ -4,7 +4,7 @@ export const DataTable = ({ title, thead, children }) => {
       <div className="DataTable-title">
         <h2>{title}</h2>
       </div>
-      <div className="DataTable-sectable">
+      
         <table className="DataTable-table">
           <thead>
             <tr>
@@ -15,7 +15,7 @@ export const DataTable = ({ title, thead, children }) => {
           </thead>
           <tbody className="DataTable-tbody">{children}</tbody>
         </table>
-      </div>
+      
     </section>
   );
 };

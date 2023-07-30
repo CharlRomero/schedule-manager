@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 
-import { Draggable } from "../components/Draggable";
-import { Droppable } from "../components/Droppable";
+import { Draggable } from "../components/dnd/Draggable";
+import { Droppable } from "../components/dnd/Droppable";
 
 export function Schedule() {
   const [parent, setParent] = useState(null);
