@@ -20,6 +20,8 @@ export const Course = () => {
   const courseURL = `${apiURL}course`;
   const courses = useFetch(courseURL);
 
+  const periodURL = `${apiURL}period`;
+  const periods = useFetch(periodURL);
 
   return (
     <section className="Course">
@@ -61,7 +63,10 @@ export const Course = () => {
         ))}
       </DataTable>
       <Modal className="Modal" active={active} toggle={active}>
-        <input type="text" defaultValue={yearLvl} />
+        <select name="" id="">
+          {periods.map((period, key) => (<option key={key} defaultValue={perCode}>{period.PER_CODE}</option>))}
+        </select>
+        
       </Modal>
     </section>
   );
