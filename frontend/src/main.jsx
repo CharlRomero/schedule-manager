@@ -7,6 +7,7 @@ import { Schedule } from "./pages/Schedule.jsx";
 import { Course } from "./pages/Course.jsx";
 
 import "./sass/style.scss";
+import { Room } from "./pages/Room.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route element={<App />}>
           <Route path="/" element={<Schedule />} />
           <Route path="/course" element={<Course />} />
+          <Route path="/room" element={<Room />}/>
         </Route>
       </Routes>
     </BrowserRouter>

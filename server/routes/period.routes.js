@@ -10,6 +10,6 @@ import {
 const router = Router();
 
 router.get("/period", getPeriods);
-router.get("/period", getPeriod);
+router.get("/period/:id", getPeriod);
 
 export default router;

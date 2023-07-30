@@ -1,0 +1,7 @@
+@use "../tools/mixins" as mixin;
+@use "../base/variables" as variable;
+
+.Table {
+  margin-left: 4.375rem;
+  @include mixin.flex(center, center, column);
+}

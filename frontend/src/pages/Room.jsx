@@ -3,25 +3,16 @@ import { useState } from "react";
 import { useFetch } from "../util/useFetch";
 
 import { DataTable } from "../components/DataTable";
+import { Button } from "../components/button/Button";
 import Modal from "../components/modals/Modal";
 
 const apiURL = import.meta.env.VITE_API;
 
-const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo"];
+const thead = ["N°", "Paralelos", "Editar"];
 
-export const Course = () => {
+export const Room = () => {
   const [active, setActive] = useState(false);
-  const [id, setId] = useState("");
-  const [yearLvl, setYearLvl] = useState("");
   const [room, setRoom] = useState("");
-  const [yearType, setYearType] = useState("");
-  const [perCode, setPerCode] = useState("");
-
-  const courses = useFetch(`${apiURL}course`);
-
-  const periods = useFetch(`${apiURL}period`);
-
-  const educationyears = useFetch(`${apiURL}educationyear`);
 
   const rooms = useFetch(`${apiURL}room`);
 
@@ -29,25 +20,25 @@ export const Course = () => {
     setActive(!active);
   };
 
+  const handlSubmit = () => {
+    const URL = `${apiURL}room/${id}`;
+    axios.patch(URL).then((res) => {
+      navigate(`room`);
+    });
+  };
+
   return (
     <section className="Table">
-      <DataTable title="Cursos" thead={thead}>
-        {courses.map((course, key) => (
+      <Button className="Button" title="Agregar" />
+      <DataTable title="Paralelos" thead={thead}>
+        {rooms.map((room, key) => (
           <tr key={key}>
-            <td className="DataTable-td">{course.COU_ID}</td>
-            <td className="DataTable-td">{course.YEAR_LEVEL}</td>
-            <td className="DataTable-td">{course.ROOM_NAME}</td>
-            <td className="DataTable-td">{course.TYPE_NAME}</td>
-            <td className="DataTable-td">{course.PER_CODE}</td>
+            <td className="DataTable-td">{room.ROOM_ID}</td>
+            <td className="DataTable-td">{room.ROOM_NAME}</td>
             <td className="DataTable-td">
               <button
                 onClick={() => {
                   setActive(!active);
-                  setId(course.COU_ID);
-                  setYearLvl(course.YEAR_LEVEL);
-                  setRoom(course.ROOM_NAME);
-                  setYearType(course.TYPE_NAME);
-                  setPerCode(course.PER_CODE);
                 }}
               >
                 <svg
@@ -69,24 +60,14 @@ export const Course = () => {
         ))}
       </DataTable>
       <Modal className="Modal" active={active} toggle={toggle}>
-        <select name="" id="">
-          {periods.map((period, key) => (
-            <option key={key} defaultValue={perCode}>
-              {period.PER_CODE}
-            </option>
-          ))}
-        </select>
         <select>
           {rooms.map((element, key) => (
-            <option
-              key={key}
-              defaultValue={room}
-              onClick={() => alert(element.ROOM_ID)}
-            >
+            <option key={key} defaultValue={room}>
               {element.ROOM_NAME}
             </option>
           ))}
         </select>
+        <Button className="Button" title="Ok" onClick={handlSubmit} />
       </Modal>
     </section>
   );
