@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 import { useFetch } from "../util/useFetch";
 
@@ -13,32 +14,50 @@ const thead = ["N°", "Paralelos", "Editar"];
 export const Room = () => {
   const [active, setActive] = useState(false);
   const [room, setRoom] = useState("");
+  const [id, setId] = useState("");
+  const [data, setData] = useState({
+    ROOM_NAME: "",
+  });
 
-  const rooms = useFetch(`${apiURL}room`);
+  const URL = `${apiURL}room`;
+  const rooms = useFetch(URL);
 
   const toggle = () => {
     setActive(!active);
   };
 
-  const handlSubmit = () => {
-    const URL = `${apiURL}room/${id}`;
-    axios.patch(URL).then((res) => {
-      navigate(`room`);
-    });
+  const handle = (e) => {
+    const newData = { ...data };
+    newData["ROOM_NAME"] = e.target.value;
+    setData(newData);
+    console.log(newData);
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    axios
+      .patch(`${apiURL}room/${id}`, {
+        ROOM_NAME: data.ROOM_NAME,
+      })
+      .then((res) => {
+        window.location.reload();
+      });
   };
 
   return (
     <section className="Table">
       <Button className="Button" title="Agregar" />
       <DataTable title="Paralelos" thead={thead}>
-        {rooms.map((room, key) => (
+        {rooms.map((item, key) => (
           <tr key={key}>
-            <td className="DataTable-td">{room.ROOM_ID}</td>
-            <td className="DataTable-td">{room.ROOM_NAME}</td>
+            <td className="DataTable-td">{item.ROOM_ID}</td>
+            <td className="DataTable-td">{item.ROOM_NAME}</td>
             <td className="DataTable-td">
               <button
                 onClick={() => {
                   setActive(!active);
+                  setRoom(item.ROOM_NAME);
+                  setId(item.ROOM_ID);
                 }}
               >
                 <svg
@@ -60,14 +79,16 @@ export const Room = () => {
         ))}
       </DataTable>
       <Modal className="Modal" active={active} toggle={toggle}>
-        <select>
-          {rooms.map((element, key) => (
-            <option key={key} defaultValue={room}>
-              {element.ROOM_NAME}
-            </option>
-          ))}
-        </select>
-        <Button className="Button" title="Ok" onClick={handlSubmit} />
+        <form onSubmit={(e) => submit(e)}>
+          <select onChange={handle}>
+            {rooms.map((element, key) => (
+              <option key={key} defaultValue={room}>
+                {element.ROOM_NAME}
+              </option>
+            ))}
+          </select>
+          <Button className="Button" title="Editar" />
+        </form>
       </Modal>
     </section>
   );
