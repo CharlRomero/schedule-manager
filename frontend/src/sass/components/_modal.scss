@@ -15,10 +15,30 @@
 
     &-window {
         position: relative;
-        background-color: aqua;
+        opacity: 1;
+        background-color: map-get(variable.$colors, "primary" );
         border-radius: 3px;
         z-index: 10;
         height: 40.625rem;
         width: 30rem;
+    }
+}
+
+.Modal {
+    &-header{
+        @include mixin.flex;
+        color: map-get(variable.$colors, "black" );
+        border-bottom: 1px solid map-get(variable.$colors, "secondary");
+        width: 100%;
+        padding: 1rem;
+        position: relative;
+    }
+
+    &-btnClose {
+        width: 1rem;
+        height: 1rem;
+        cursor: pointer;
+        position: absolute;
+        left: 1rem;
     }
 }

@@ -1,25 +1,24 @@
-@use "../tools/mixins" as button;
+@use "../tools/mixins" as mixin;
 @use "../base/variables" as variable;
 
 .Button {
   font-family: map-get(variable.$fonts, "subtitle");
-  font-size: 1.5em;
-  @include button.flex;
-  color: map-get(variable.$colors, "black-secondary");
+  font-size: 1.25em;
+  @include mixin.flex;
+  gap: 0.625rem;
+  color: map-get(variable.$colors, "black");
   background-color: map-get(variable.$colors, "secondary");
   width: 7.5rem;
-  border-radius: 1.25rem;
-  padding: 0.625rem;
-  box-shadow:  1px 1px 10px map-get(variable.$colors, "black-secondary" ),
-             -1px -1px 10px map-get(variable.$colors, "secondary" );
+  border-radius: 1rem;
+  padding: 0.4375rem;
+  font-weight: 500;
   &--size {
     width: 9.375rem;
   }
 }
 
 .Button:hover {
-  color: map-get(variable.$colors, "secondary");
-  background-color: map-get(variable.$colors, "black-secondary");
-  font-weight: 500;
+  background-color: map-get(variable.$colors, "seconday");
+  box-shadow: inset -3px -3px 7px #c9c3b9, inset 3px 3px 7px #ffffff;
   cursor: pointer;
 }
