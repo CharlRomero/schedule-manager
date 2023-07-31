@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import school from "../assets/school.png";
 import books from "../assets/books.png";
+import bell from "../assets/bell.png";
 
 export const Navbar = () => {
   return (
@@ -14,6 +15,9 @@ export const Navbar = () => {
       <div className="Navbar-links">
         <Link className="Navbar-link" to="/course">
           <img src={books} alt="books" className="Navbar-img" />
+        </Link>
+        <Link className="Navbar-link" to="/room">
+          <img src={bell} alt="bell" className="Navbar-img"/>
         </Link>
       </div>
     </section>

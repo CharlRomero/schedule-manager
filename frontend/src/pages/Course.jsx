@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useFetch } from "../util/useFetch";
 
 import { DataTable } from "../components/DataTable";
+import { Button } from "../components/button/Button";
 import Modal from "../components/modals/Modal";
 
 const apiURL = import.meta.env.VITE_API;
@@ -17,6 +18,9 @@ export const Course = () => {
   const [yearType, setYearType] = useState("");
   const [perCode, setPerCode] = useState("");
 
+  //Datos
+  const [data, setData] = useState({});
+  //
   const courses = useFetch(`${apiURL}course`);
 
   const periods = useFetch(`${apiURL}period`);
@@ -28,6 +32,8 @@ export const Course = () => {
   const toggle = () => {
     setActive(!active);
   };
+
+  const handle = (e) => {};
 
   return (
     <section className="Table">
@@ -91,6 +97,7 @@ export const Course = () => {
               ))}
             </select>
           </section>
+          <Button className="Button" title="Editar" />
         </form>
       </Modal>
     </section>
