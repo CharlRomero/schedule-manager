@@ -67,6 +67,7 @@
   &-inputs {
     width: 100%;
     height: 100%;
+    gap: .4375rem;
     @include mixin.flex(center, center, column);
     font-family: map-get(variable.$fonts, "text");
     color: map-get(variable.$colors, "black");

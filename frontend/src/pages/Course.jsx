@@ -69,24 +69,29 @@ export const Course = () => {
         ))}
       </DataTable>
       <Modal className="Modal" active={active} toggle={toggle}>
-        <select name="" id="">
-          {periods.map((period, key) => (
-            <option key={key} defaultValue={perCode}>
-              {period.PER_CODE}
-            </option>
-          ))}
-        </select>
-        <select>
-          {rooms.map((element, key) => (
-            <option
-              key={key}
-              defaultValue={room}
-              onClick={() => alert(element.ROOM_ID)}
-            >
-              {element.ROOM_NAME}
-            </option>
-          ))}
-        </select>
+        <h3 className="Modal-title">{`Editar curso: ${yearLvl} ${room} ${yearType}`}</h3>
+        <form className="Form">
+          <section className="Form-inputs">
+            <select className="Form-inputs--input">
+              {periods.map((period, key) => (
+                <option key={key} defaultValue={perCode}>
+                  {period.PER_CODE}
+                </option>
+              ))}
+            </select>
+            <select className="Form-inputs--input">
+              {rooms.map((element, key) => (
+                <option
+                  key={key}
+                  defaultValue={room}
+                  onClick={() => alert(element.ROOM_ID)}
+                >
+                  {element.ROOM_NAME}
+                </option>
+              ))}
+            </select>
+          </section>
+        </form>
       </Modal>
     </section>
   );
