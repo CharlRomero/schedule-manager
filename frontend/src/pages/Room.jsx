@@ -117,7 +117,7 @@ export const Room = () => {
       </DataTable>
       <Modal
         className="Modal"
-        resize="Portal-window--room"
+        resize="Portal-window--resize"
         active={active}
         toggle={toggle}
       >

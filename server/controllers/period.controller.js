@@ -39,11 +39,11 @@ export const createPeriod = async (req, res) => {
 
 export const updatePeriod = async (req, res) => {
   const { id } = req.params;
-  const { COU_NAME, COU_YEAR, COU_PERIOD } = req.body;
+  const { PER_NAME } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE COURSE SET COU_NAME = IFNULL(?, COU_NAME), COU_YEAR = IFNULL(?, COU_YEAR), COU_PERIOD = IFNULL(?, COU_PERIOD) WHERE COU_ID = ?",
-    [COU_NAME, COU_YEAR, COU_PERIOD, id]
+    "UPDATE PERIOD SET PER_NAME = IFNULL(?, PER_NAME) WHERE PER_ID = ?",
+    [PER_NAME, id]
   );
 
   if (result.affectedRows === 0)
@@ -51,7 +51,7 @@ export const updatePeriod = async (req, res) => {
       message: "Course not found",
     });
 
-  const [rows] = await pool.query("SELECT * FROM COURSE WHERE COU_ID = ?", [
+  const [rows] = await pool.query("SELECT * FROM PERIOD WHERE PER_ID = ?", [
     id,
   ]);
 
