@@ -15,6 +15,7 @@
 
   &-div {
     height: 100%;
+    padding: .625rem;
   }
 
   &-window {
@@ -25,20 +26,21 @@
     z-index: 10;
     height: 40.625rem;
     width: 30rem;
-    
-    &--room{
-        height: 21.875rem;
+
+    &--room {
+      height: 21.875rem;
     }
   }
 }
 
 .Modal {
   &-header {
-    @include mixin.flex;
     color: map-get(variable.$colors, "black");
-    border-bottom: 1px solid map-get(variable.$colors, "secondary");
+    @include mixin.flex;
+    border-bottom: 1px solid map-get(variable.$colors, "black");
     width: 100%;
     padding: 1rem;
+
     position: relative;
   }
 
@@ -49,11 +51,28 @@
     position: absolute;
     left: 1rem;
   }
+  &-title {
+    color: map-get(variable.$colors, "black");
+    text-align: center;
+    font-size: 1.5rem;
+  }
 }
 
-.Form{
+.Form {
+  @include mixin.flex(center, center, column);
+  padding-top: 0.625rem;
+  gap: 0.9375rem;
+  height: 80%;
+
+  &-inputs {
+    width: 100%;
+    height: 100%;
     @include mixin.flex(center, center, column);
-    padding-top: .625rem;
-    gap: .9375rem;
-    height: 80%;
+    font-family: map-get(variable.$fonts, "text");
+    color: map-get(variable.$colors, "black");
+    &--input {
+      padding: 0.4375rem;
+      background-color: map-get(variable.$colors, "secondary");
+    }
+  }
 }

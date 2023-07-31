@@ -121,14 +121,17 @@ export const Room = () => {
         active={active}
         toggle={toggle}
       >
+        <h3 className="Modal-title">{`Editar paralelo: ${room}`}</h3>
         <form onSubmit={(e) => submit(e)} className="Form">
-          <select onChange={handle}>
-            {rooms.map((element, key) => (
-              <option key={key} defaultValue={room}>
-                {element.ROOM_NAME}
-              </option>
-            ))}
-          </select>
+          <section className="Form-inputs">
+            <select onChange={handle} className="Form-inputs--input">
+              {rooms.map((element, key) => (
+                <option key={key} defaultValue={room}>
+                  {element.ROOM_NAME}
+                </option>
+              ))}
+            </select>
+          </section>
           <Button className="Button" title="Editar" />
         </form>
       </Modal>
@@ -138,13 +141,14 @@ export const Room = () => {
         active={activeModal}
         toggle={toggleCreate}
       >
+        <h3 className="Modal-title">Ingresar nuevo paralelo</h3>
         <form onSubmit={(e) => create(e)} className="Form">
           <section className="Form-inputs">
             <input
               type="text"
               placeholder="Ingrese el paralelo"
               onChange={handle}
-              className="Form-input"
+              className="Form-inputs--input"
             />
           </section>
           <Button className="Button" title="Agregar" />
