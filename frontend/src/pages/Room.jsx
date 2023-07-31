@@ -9,7 +9,7 @@ import Modal from "../components/modals/Modal";
 
 const apiURL = import.meta.env.VITE_API;
 
-const thead = ["N°", "Paralelos", "Editar"];
+const thead = ["N°", "Paralelos", ""];
 
 export const Room = () => {
   const [active, setActive] = useState(false);
@@ -63,9 +63,9 @@ export const Room = () => {
   return (
     <section className="Table">
       <Button className="Button" title="Agregar" onClick={toggleCreate} />
-      <DataTable title="Paralelos" thead={thead}>
+      <DataTable className="DataTable DataTable--resize" title="Paralelos" thead={thead}>
         {rooms.map((item, key) => (
-          <tr key={key}>
+          <tr className="DataTable-tr" key={key}>
             <td className="DataTable-td">{item.ROOM_ID}</td>
             <td className="DataTable-td">{item.ROOM_NAME}</td>
             <td className="DataTable-td">

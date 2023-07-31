@@ -7,7 +7,7 @@ import Modal from "../components/modals/Modal";
 
 const apiURL = import.meta.env.VITE_API;
 
-const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo"];
+const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo", ""];
 
 export const Course = () => {
   const [active, setActive] = useState(false);
@@ -31,9 +31,9 @@ export const Course = () => {
 
   return (
     <section className="Table">
-      <DataTable title="Cursos" thead={thead}>
+      <DataTable className="DataTable" title="Cursos" thead={thead}>
         {courses.map((course, key) => (
-          <tr key={key}>
+          <tr key={key} className="DataTable-tr">
             <td className="DataTable-td">{course.COU_ID}</td>
             <td className="DataTable-td">{course.YEAR_LEVEL}</td>
             <td className="DataTable-td">{course.ROOM_NAME}</td>

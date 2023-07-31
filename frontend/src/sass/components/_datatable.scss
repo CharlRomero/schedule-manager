@@ -6,25 +6,48 @@
   @include mixin.flex(center, center, column);
   gap: 0.625rem;
 
+  &--resize{
+    width: 50%;
+  }
+
   &-svg {
     width: 1.25rem;
     height: 1.25rem;
   }
 
-  &-svg:hover{
+  &-svg:hover {
     cursor: pointer;
   }
 
-  &-sectable{
+  &-sectable {
     width: 80%;
   }
 
-  &-table{
-    width: 100%;
-    
+  &-table {
+    width: 80%;
+    border-radius: 3px;
+    color: map-get(variable.$colors, "black" );
+  }
+  
+  &-thead {
+    background-color: map-get(variable.$colors, "secondary");
+    font-size: 1.25em;
+    font-family: map-get(variable.$fonts, "subtitle" );
+  }
+  
+  &-td {
+    padding: .4375rem;
+    text-align: center;
+    font-family: map-get(variable.$fonts, "text" );
   }
 
-  &-td{
-    text-align: center;
+  &-th {
+    padding: .625rem;
+  }
+  &-tr:nth-child(2n) {
+    background-color: map-get(variable.$colors, "light");
+  }
+  &-tr:nth-child(2n+1) {
+    background-color: map-get(variable.$colors, "primary");
   }
 }
