@@ -13,6 +13,7 @@ const thead = ["N°", "Paralelos", "Editar"];
 
 export const Room = () => {
   const [active, setActive] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
   const [room, setRoom] = useState("");
   const [id, setId] = useState("");
   const [data, setData] = useState({
@@ -24,6 +25,10 @@ export const Room = () => {
 
   const toggle = () => {
     setActive(!active);
+  };
+
+  const toggleCreate = () => {
+    setActiveModal(!activeModal);
   };
 
   const handle = (e) => {
@@ -44,9 +49,20 @@ export const Room = () => {
       });
   };
 
+  const create = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${apiURL}room`, {
+        ROOM_NAME: data.ROOM_NAME,
+      })
+      .then((res) => {
+        window.location.reload();
+      });
+  };
+
   return (
     <section className="Table">
-      <Button className="Button" title="Agregar" />
+      <Button className="Button" title="Agregar" onClick={toggleCreate} />
       <DataTable title="Paralelos" thead={thead}>
         {rooms.map((item, key) => (
           <tr key={key}>
@@ -88,6 +104,16 @@ export const Room = () => {
             ))}
           </select>
           <Button className="Button" title="Editar" />
+        </form>
+      </Modal>
+      <Modal className="Modal" active={activeModal} toggle={toggleCreate}>
+        <form onSubmit={(e) => create(e)}>
+          <input
+            type="text"
+            placeholder="Ingrese el paralelo"
+            onChange={handle}
+          />
+          <Button className="Button" title="Agregar" />
         </form>
       </Modal>
     </section>

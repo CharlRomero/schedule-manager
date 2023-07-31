@@ -24,6 +24,17 @@ export const getRoom = async (req, res) => {
   }
 };
 
+export const createRoom = async (req, res) => {
+  const { ROOM_NAME } = req.body;
+  const [rows] = await pool.query("INSERT INTO ROOM (ROOM_NAME) VALUES (?)", [
+    ROOM_NAME,
+  ]);
+  res.send({
+    SLOT_ID: rows.insertId,
+    ROOM_NAME,
+  });
+};
+
 export const updateRoom = async (req, res) => {
   const { id } = req.params;
   const { ROOM_NAME } = req.body;
