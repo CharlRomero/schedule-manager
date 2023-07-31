@@ -27,23 +27,23 @@ export const getPeriod = async (req, res) => {
 };
 
 export const createPeriod = async (req, res) => {
-  const { PER_NAME } = req.body;
-  const [rows] = await pool.query("INSERT INTO PERIOD (PER_NAME) VALUES (?)", [
-    PER_NAME,
+  const { PER_CODE } = req.body;
+  const [rows] = await pool.query("INSERT INTO PERIOD (PER_CODE) VALUES (?)", [
+    PER_CODE,
   ]);
   res.send({
     PER_ID: rows.insertId,
-    PER_NAME,
+    PER_CODE,
   });
 };
 
 export const updatePeriod = async (req, res) => {
   const { id } = req.params;
-  const { PER_NAME } = req.body;
+  const { PER_CODE } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE PERIOD SET PER_NAME = IFNULL(?, PER_NAME) WHERE PER_ID = ?",
-    [PER_NAME, id]
+    "UPDATE PERIOD SET PER_CODE = IFNULL(?, PER_CODE) WHERE PER_ID = ?",
+    [PER_CODE, id]
   );
 
   if (result.affectedRows === 0)

@@ -14,6 +14,7 @@ const thead = ["N°", "Periodos", ""];
 export const Period = () => {
   const [active, setActive] = useState(false);
   const [id, setId] = useState("");
+  const [activeModal, setActiveModal] = useState(false);
   const [period, setPeriod] = useState("");
 
   const URL = `${apiURL}period`;
@@ -25,6 +26,9 @@ export const Period = () => {
 
   const toggle = () => {
     setActive(!active);
+  };
+  const toggleCreate = () => {
+    setActiveModal(!activeModal);
   };
 
   const handle = (e) => {
@@ -43,9 +47,36 @@ export const Period = () => {
         window.location.reload();
       });
   };
-
+  const create = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${apiURL}room`, {
+        PER_CODE: data.PER_CODE,
+      })
+      .then(() => {
+        window.location.reload();
+      });
+  };
   return (
     <section className="Table">
+      <section className="Table-buttons">
+        <Button
+          className="Button Table-buttons--right"
+          title="Agregar"
+          onClick={toggleCreate}
+        >
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            className="Button-svg"
+          >
+            <path d="M11.5 0c6.347 0 11.5 5.153 11.5 11.5s-5.153 11.5-11.5 11.5-11.5-5.153-11.5-11.5 5.153-11.5 11.5-11.5zm0 1c5.795 0 10.5 4.705 10.5 10.5s-4.705 10.5-10.5 10.5-10.5-4.705-10.5-10.5 4.705-10.5 10.5-10.5zm.5 10h6v1h-6v6h-1v-6h-6v-1h6v-6h1v6z" />
+          </svg>
+        </Button>
+      </section>
       <DataTable
         className="DataTable DataTable--resize"
         title="Tabla de Periodos"
@@ -98,6 +129,25 @@ export const Period = () => {
             />
           </section>
           <Button className="Button" title="Editar" />
+        </form>
+      </Modal>
+      <Modal
+        className="Modal"
+        resize="Portal-window--resize"
+        active={activeModal}
+        toggle={toggleCreate}
+      >
+        <h3 className="Modal-title">Agregar nuevo periodo</h3>
+        <form onSubmit={(e) => submit(e)} className="Form">
+          <section className="Form-inputs">
+            <input
+              className="Form-inputs--input"
+              type="text"
+              placeholder="Ingrese el periodo"
+              onChange={handle}
+            />
+          </section>
+          <Button className="Button" title="Agregar" />
         </form>
       </Modal>
     </section>
