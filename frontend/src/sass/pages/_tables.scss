@@ -1,0 +1,17 @@
+@use "../tools/mixins" as mixin;
+@use "../base/variables" as variable;
+
+.Table {
+  margin-left: 4.375rem;
+  padding-top: 1.25rem;
+  @include mixin.flex(center, center, column);
+  &-buttons {
+    width: 100%;
+    position: relative;
+    height: 50px;
+    &--right {
+      position: absolute;
+      right: 5%;
+    }
+  }
+}
