@@ -2,7 +2,7 @@ import { pool } from "../database.js";
 
 export const getRooms = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM ROOM");
+    const [rows] = await pool.query("SELECT * FROM ROOM ORDER BY ROOM_NAME ASC");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({

@@ -3,13 +3,13 @@ import Portal from "./Portal";
 
 export default class Modal extends Component {
   render() {
-    const { children, active, toggle } = this.props;
+    const { children, active, toggle, resize } = this.props;
 
     return (
       <Portal className="Portal">
         {active && (
           <section className="Portal-wrapper">
-            <section className="Portal-window">
+            <section className={`Portal-window ${resize}`}>
               <section className="Modal-header">
                 <svg
                   className="Modal-btnClose"

@@ -87,7 +87,7 @@ export const Room = () => {
       >
         {rooms.map((item, key) => (
           <tr className="DataTable-tr" key={key}>
-            <td className="DataTable-td">{item.ROOM_ID}</td>
+            <td className="DataTable-td">{key + 1}</td>
             <td className="DataTable-td">{item.ROOM_NAME}</td>
             <td className="DataTable-td">
               <button
@@ -115,8 +115,13 @@ export const Room = () => {
           </tr>
         ))}
       </DataTable>
-      <Modal className="Modal" active={active} toggle={toggle}>
-        <form onSubmit={(e) => submit(e)}>
+      <Modal
+        className="Modal"
+        resize="Portal-window--room"
+        active={active}
+        toggle={toggle}
+      >
+        <form onSubmit={(e) => submit(e)} className="Form">
           <select onChange={handle}>
             {rooms.map((element, key) => (
               <option key={key} defaultValue={room}>
@@ -127,13 +132,21 @@ export const Room = () => {
           <Button className="Button" title="Editar" />
         </form>
       </Modal>
-      <Modal className="Modal" active={activeModal} toggle={toggleCreate}>
-        <form onSubmit={(e) => create(e)}>
-          <input
-            type="text"
-            placeholder="Ingrese el paralelo"
-            onChange={handle}
-          />
+      <Modal
+        className="Modal"
+        resize="Portal-window--room"
+        active={activeModal}
+        toggle={toggleCreate}
+      >
+        <form onSubmit={(e) => create(e)} className="Form">
+          <section className="Form-inputs">
+            <input
+              type="text"
+              placeholder="Ingrese el paralelo"
+              onChange={handle}
+              className="Form-input"
+            />
+          </section>
           <Button className="Button" title="Agregar" />
         </form>
       </Modal>
