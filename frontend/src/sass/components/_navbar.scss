@@ -2,11 +2,16 @@
 @use "../base/variables" as variable;
 
 .Navbar {
-  background-color: map-get(variable.$colors, "primary" );
+  background-color: map-get(variable.$colors, "primary");
   @include mixin.flex(flex-start, center, column);
-  gap: 1.25rem;
+  gap: 2.5rem;
   padding: 0.625rem;
   width: 4.375rem;
   height: 100vh;
   position: fixed;
+
+  &-links {
+    @include mixin.flex(center, center, column);
+    gap: .3125rem;
+  }
 }

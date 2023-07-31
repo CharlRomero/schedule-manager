@@ -19,8 +19,29 @@ export const Period = () => {
   const URL = `${apiURL}period`;
   const periods = useFetch(URL);
 
+  const [data, setData] = useState({
+    PER_CODE: "",
+  });
+
   const toggle = () => {
     setActive(!active);
+  };
+
+  const handle = (e) => {
+    const newData = { ...data };
+    newData["PER_CODE"] = e.target.value;
+    setData(newData);
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    axios
+      .patch(`${apiURL}period/${id}`, {
+        PER_CODE: data.PER_CODE,
+      })
+      .then(() => {
+        window.location.reload();
+      });
   };
 
   return (
@@ -67,10 +88,16 @@ export const Period = () => {
         toggle={toggle}
       >
         <h3 className="Modal-title">{`Editar periodo: ${period}`}</h3>
-        <form className="Form">
+        <form onSubmit={(e) => submit(e)} className="Form">
           <section className="Form-inputs">
-            <input className="Form-inputs--input" type="text" placeholder={period} />
+            <input
+              className="Form-inputs--input"
+              type="text"
+              placeholder={period}
+              onChange={handle}
+            />
           </section>
+          <Button className="Button" title="Editar" />
         </form>
       </Modal>
     </section>

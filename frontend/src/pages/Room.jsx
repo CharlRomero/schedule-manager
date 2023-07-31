@@ -35,7 +35,6 @@ export const Room = () => {
     const newData = { ...data };
     newData["ROOM_NAME"] = e.target.value;
     setData(newData);
-    console.log(newData);
   };
 
   const submit = (e) => {
@@ -44,7 +43,7 @@ export const Room = () => {
       .patch(`${apiURL}room/${id}`, {
         ROOM_NAME: data.ROOM_NAME,
       })
-      .then((res) => {
+      .then(() => {
         window.location.reload();
       });
   };
@@ -55,7 +54,7 @@ export const Room = () => {
       .post(`${apiURL}room`, {
         ROOM_NAME: data.ROOM_NAME,
       })
-      .then((res) => {
+      .then(() => {
         window.location.reload();
       });
   };
