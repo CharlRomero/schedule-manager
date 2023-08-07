@@ -1,0 +1,60 @@
+/* Estilos del componente Schedule */
+
+/* Estilos de la tabla */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: 2cm;
+  }
+  
+  .schedule-table th,
+  .schedule-table td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+  }
+  
+  /* Estilos de los botones de materias */
+  .materia-button {
+    position: relative; /* Agregamos posición relativa */
+    margin-bottom: 5px;
+    width: 150px;
+    cursor: move;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+  }
+  
+  /* Estilos de los botones de eliminar */
+  .delete-button {
+    position: absolute; /* Agregamos posición absoluta */
+    top: 0; /* Posicionamos en la parte superior */
+    right: 0; /* Posicionamos en la parte derecha */
+    padding: 4px;
+    cursor: pointer;
+    color: #ff0000;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    border-radius: 50%; /* Hacemos el botón redondo */
+  }
+  
+  /* Estilos de las celdas del horario */
+  .schedule-cell {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    height: 50px;
+  }
+  
+  .schedule-cell div {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+    margin: 4px;
+    cursor: pointer;
+  }
+  
+  /* Estilos de los botones de materia en el horario */
+  .schedule-cell .materia-button {
+    background-color: var(--materia-color, #f7f7f7);
+  }
+  

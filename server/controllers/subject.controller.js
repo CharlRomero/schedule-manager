@@ -12,27 +12,47 @@ export const getSubject = async (req, res) => {
 };
 
 export const createSubject = async (req, res) => {
-  const { SLOT_ID, COU_ID, COU_PERIOD, SUB_NAME } = req.body;
+  const { SLOT_ID, COU_ID, SUB_NAME } = req.body;
   const [rows] = await pool.query(
-    "INSERT INTO SUBJECT (SLOT_ID, COU_ID, COU_PERIOD, SUB_NAME) VALUES (?, ?, ?, ?)",
-    [SLOT_ID, COU_ID, COU_PERIOD, SUB_NAME]
+    "INSERT INTO SUBJECT (SLOT_ID, COU_ID, SUB_NAME) VALUES (?, ?, ?)",
+    [SLOT_ID, COU_ID, SUB_NAME]
   );
   res.send({
     SUB_ID: rows.insertId,
     SLOT_ID,
     COU_ID,
-    COU_PERIOD,
     SUB_NAME,
   });
 };
 
+// export const updateSubject = async (req, res) => {
+//   const { id } = req.params;
+//   const { SLOT_ID, COU_ID, SUB_NAME } = req.body;
+
+//   const [result] = await pool.query(
+//     "UPDATE SUBJECT SET SLOT_ID = IFNULL(?, SLOT_ID), COU_ID = IFNULL(?, COU_ID) = IFNULL(?), SUB_NAME = IFNULL(?, SUB_NAME) WHERE SUB_ID = ?",
+//     [SLOT_ID, COU_ID, SUB_NAME, id]
+//   );
+
+//   if (result.affectedRows === 0)
+//     return res.status(404).json({
+//       message: "Subject not found",
+//     });
+
+//   const [rows] = await pool.query("SELECT * FROM SUBJECT WHERE SUB_ID = ?", [
+//     id,
+//   ]);
+
+//   res.json(rows);
+// };
+
 export const updateSubject = async (req, res) => {
   const { id } = req.params;
-  const { SLOT_ID, COU_ID, COU_PERIOD, SUB_NAME } = req.body;
+  const { SLOT_ID, COU_ID, SUB_NAME } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE SUBJECT SET SLOT_ID = IFNULL(?, SLOT_ID), COU_ID = IFNULL(?, COU_ID), COU_PERIOD = IFNULL(?, COU_PERIOD), SUB_NAME = IFNULL(?, SUB_NAME) WHERE SUB_ID = ?",
-    [SLOT_ID, COU_ID, COU_PERIOD, SUB_NAME, id]
+    "UPDATE SUBJECT SET SLOT_ID = IFNULL(?, SLOT_ID), COU_ID = IFNULL(?, COU_ID), SUB_NAME = IFNULL(?, SUB_NAME) WHERE SUB_ID = ?",
+    [SLOT_ID, COU_ID, SUB_NAME, id]
   );
 
   if (result.affectedRows === 0)

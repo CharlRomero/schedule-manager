@@ -23,6 +23,9 @@ export const Navbar = () => {
         <Link className="Navbar-link" to="/period">
           <img src={period} alt="bell" className="Navbar-img" />
         </Link>
+        <Link className="Navbar-link" to="/subject">
+          <img src={books} alt="books" className="Navbar-img" />
+        </Link>
       </div>
     </section>
   );

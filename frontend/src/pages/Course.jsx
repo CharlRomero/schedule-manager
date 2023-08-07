@@ -40,7 +40,7 @@ export const Course = () => {
       <DataTable className="DataTable" title="Cursos" thead={thead}>
         {courses.map((course, key) => (
           <tr key={key} className="DataTable-tr">
-            <td className="DataTable-td">{course.COU_ID}</td>
+            <td className="DataTable-td">{key + 1}</td>
             <td className="DataTable-td">{course.YEAR_LEVEL}</td>
             <td className="DataTable-td">{course.ROOM_NAME}</td>
             <td className="DataTable-td">{course.TYPE_NAME}</td>
