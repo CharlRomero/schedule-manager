@@ -27,7 +27,7 @@ create table COURSE
    YEAR_ID              int not null,
    PER_ID               int not null,
    ROOM_ID              int not null,
-   COU_STATUS           bool not null default 1,
+   COU_STATUS           bool not null default TRUE,
    primary key (COU_ID)
 );
 
@@ -38,7 +38,7 @@ create table EDUCATIONTYPE
 (
    TYPE_ID              int auto_increment not null,
    TYPE_NAME            longtext not null,
-   TYPE_STATUS          bool not null default 1,
+   TYPE_STATUS          bool not null default TRUE,
    primary key (TYPE_ID)
 );
 
@@ -50,7 +50,7 @@ create table EDUCATIONYEAR
    YEAR_ID              int auto_increment not null,
    TYPE_ID              int not null,
    YEAR_LEVEL           varchar(10) not null,
-   YEAR_STATUS          bool not null default 1,
+   YEAR_STATUS          bool not null default TRUE,
    primary key (YEAR_ID)
 );
 
@@ -61,7 +61,7 @@ create table PERIOD
 (
    PER_ID               int auto_increment not null,
    PER_CODE             varchar(20) not null,
-   PER_STATUS           bool not null default 1,
+   PER_STATUS           bool not null default TRUE,
    primary key (PER_ID)
 );
 
@@ -72,7 +72,7 @@ create table ROOM
 (
    ROOM_ID              int auto_increment not null,
    ROOM_NAME            longtext not null,
-   ROOM_STATUS          bool not null default 1,
+   ROOM_STATUS          bool not null default TRUE,
    primary key (ROOM_ID)
 );
 
@@ -86,7 +86,7 @@ create table SLOT
    SLOT_ENDTIME         time not null,
    SLOT_WEEKEND         bool not null default 0,
    SLOT_DAY             int not null default 0,
-   SLOT_STATUS          bool not null default 1,
+   SLOT_STATUS          bool not null default TRUE,
    primary key (SLOT_ID)
 );
 
@@ -99,7 +99,7 @@ create table SUBJECT
    SLOT_ID              int not null,
    COU_ID               int not null,
    SUB_NAME             varchar(120) not null,
-   SUB_STATUS           bool not null default 1,
+   SUB_STATUS           bool not null default TRUE,
    primary key (SUB_ID)
 );
 
