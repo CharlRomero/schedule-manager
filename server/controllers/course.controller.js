@@ -2,7 +2,7 @@ import { pool } from "../database.js";
 
 export const getCourses = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM COURSE_VW");
+    const [rows] = await pool.query("SELECT * FROM COURSE_VW ORDER BY PER_CODE DESC");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
