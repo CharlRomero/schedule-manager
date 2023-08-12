@@ -20,6 +20,11 @@
     height: 1.25rem;
   }
 
+  &-buttons{
+    @include mixin.flex;
+    gap: 3px;
+  }
+
   &-svg:hover {
     cursor: pointer;
   }
