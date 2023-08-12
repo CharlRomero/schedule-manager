@@ -113,3 +113,4 @@ alter table SUBJECT add constraint FK_CORRESPONDS foreign key (SLOT_ID)
 alter table SUBJECT add constraint FK_HAS foreign key (COU_ID)
       references COURSE (COU_ID) on delete restrict on update restrict;
 
+create view COURSE_VW as select YEAR_LEVEL, ROOM_NAME, TYPE_NAME, PER_CODE from course c, period p, room r, educationyear e, educationtype t where c.YEAR_ID = e.YEAR_ID and t.TYPE_ID = e.TYPE_ID and c.PER_ID = p.PER_ID and c.ROOM_ID = r.ROOM_ID;
