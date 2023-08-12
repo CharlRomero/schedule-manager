@@ -14,9 +14,8 @@ const thead = ["N°", "Paralelos", ""];
 export const Room = () => {
   const [active, setActive] = useState(false);
   const [activeModal, setActiveModal] = useState(false);
-  const [room, setRoom] = useState("");
-  const [id, setId] = useState("");
   const [data, setData] = useState({
+    ID_ROOM: "",
     ROOM_NAME: "",
   });
 
@@ -40,7 +39,7 @@ export const Room = () => {
   const submit = (e) => {
     e.preventDefault();
     axios
-      .patch(`${apiURL}room/${id}`, {
+      .patch(`${apiURL}room/${data.ID_ROOM}`, {
         ROOM_NAME: data.ROOM_NAME,
       })
       .then(() => {
@@ -93,8 +92,10 @@ export const Room = () => {
                 <button
                   onClick={() => {
                     setActive(!active);
-                    setRoom(item.ROOM_NAME);
-                    setId(item.ROOM_ID);
+                    setData({
+                      ID_ROOM: item.ROOM_ID,
+                      ROOM_NAME: item.ROOM_NAME,
+                    });
                   }}
                 >
                   <svg
@@ -115,8 +116,8 @@ export const Room = () => {
                   <svg
                     clipRule="evenodd"
                     fillRule="evenodd"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="2"
+                    strokeLinejoin="round"
+                    strokeMiterlimit="2"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                     className="DataTable-svg"
@@ -138,16 +139,15 @@ export const Room = () => {
         active={active}
         toggle={toggle}
       >
-        <h3 className="Modal-title">{`Editar paralelo: ${room}`}</h3>
+        <h3 className="Modal-title">{`Editar paralelo: ${data.ROOM_NAME}`}</h3>
         <form onSubmit={(e) => submit(e)} className="Form">
           <section className="Form-inputs">
-            <select onChange={handle} className="Form-inputs--input">
-              {rooms.map((element, key) => (
-                <option key={key} defaultValue={room}>
-                  {element.ROOM_NAME}
-                </option>
-              ))}
-            </select>
+            <input
+              className="Form-inputs--input"
+              type="text"
+              defaultValue={data.ROOM_NAME}
+              onChange={handle}
+            />
           </section>
           <Button className="Button" title="Editar" />
         </form>
