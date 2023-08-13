@@ -90,6 +90,29 @@ export const Slot = () => {
           </tr>
         ))}
       </DataTable>
+      <Modal
+        className="Modal"
+        resize="Portal-window--resize"
+        active={activeUpdate}
+        toggle={toggleUpdate}
+      >
+        <h3 className="Modal-title">{`Editar franjas`}</h3>
+        <form onSubmit={(e) => submit(e)} className="Form">
+          <section className="From-inputs">
+            <input
+              className="Form-inputs--input"
+              type="time"
+              defaultValue={data.SLOT_INITIME}
+            />
+            <input
+              className="Form-inputs--input"
+              type="time"
+              defaultValue={data.SLOT_ENDTIME}
+            />
+            <Button className="Button" title="Editar"/>
+          </section>
+        </form>
+      </Modal>
     </section>
   );
 };
