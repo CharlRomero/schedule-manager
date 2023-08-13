@@ -4,6 +4,7 @@ import school from "../assets/school.png";
 import books from "../assets/books.png";
 import bell from "../assets/bell.png";
 import period from "../assets/period.png";
+import slot from "../assets/period.png";
 
 export const Navbar = () => {
   return (
@@ -25,6 +26,9 @@ export const Navbar = () => {
         </Link>
         <Link className="Navbar-link" to="/subject">
           <img src={books} alt="books" className="Navbar-img" />
+        </Link>
+        <Link className="Navbar-link" to="/slot">
+          <img src={slot} alt="slot" className="Navbar-img" />
         </Link>
       </div>
     </section>
