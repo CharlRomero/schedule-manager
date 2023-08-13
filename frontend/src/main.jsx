@@ -10,6 +10,7 @@ import { Room } from "./pages/Room.jsx";
 import { Period } from "./pages/Period.jsx";
 import { Subject } from "./pages/Subject.jsx";
 import { Slot } from "./pages/Slot.jsx";
+import { EducationType } from "./pages/EducationType.jsx";
 import { Table } from "./pages/Table.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/period" element={<Period />} />
           <Route path="/subject" element={<Subject />} />
           <Route path="/slot" element={<Slot />} />
+          <Route path="/educationtype" element={<EducationType/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
