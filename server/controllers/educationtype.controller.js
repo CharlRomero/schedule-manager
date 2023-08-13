@@ -43,7 +43,7 @@ export const updateEducationType = async (req, res) => {
   const { TYPE_NAME } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE EDUCATIONTYPE SET TYPE_NAME = IFNULL(?, TYPE_NAME) WHERE TYPE_ID = ?",
+    "UPDATE EDUCATIONTYPE SET TYPE_NAME = IFNULL(?, TYPE_NAME) WHERE TYPE_IDx = ?",
     [TYPE_NAME, id]
   );
 
