@@ -113,11 +113,7 @@ export const Room = () => {
                     />
                   </svg>
                 </button>
-                <button
-                  onClick={(e) => {
-                    deleteRoom(e, item.ROOM_ID);
-                  }}
-                >
+                <button onClick={(e) => deleteRoom(e, item.ROOM_ID)}>
                   <svg
                     clipRule="evenodd"
                     fillRule="evenodd"
