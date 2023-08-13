@@ -13,6 +13,7 @@ const thead = ["N°", "Educación", ""];
 
 export const EducationType = () => {
   const [activeUpdate, setActiveUpdate] = useState(false);
+  const [activeCreate, setActiveCreate] = useState(false);
   const [data, setData] = useState({
     TYPE_ID: "",
     TYPE_NAME: "",
@@ -32,6 +33,10 @@ export const EducationType = () => {
     setActiveUpdate(!activeUpdate);
   };
 
+  const toggleCreate = () => {
+    setActiveCreate(!activeCreate);
+  };
+
   const handle = (e) => {
     const newData = { ...data };
     newData["TYPE_NAME"] = e.target.value;
@@ -47,9 +52,33 @@ export const EducationType = () => {
       .then(() => window.location.reload());
   };
 
+  const submitCreate = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${apiURL}educationtype`, { TYPE_NAME: data.TYPE_NAME })
+      .then(() => window.location.reload());
+  };
+
   return (
     <section className="Table">
-      <section className="Table-buttons"></section>
+      <section className="Table-buttons">
+        <Button
+          className="Button Table-buttons--right"
+          title="Agregar"
+          onClick={toggleCreate}
+        >
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            className="Button-svg"
+          >
+            <path d="M11.5 0c6.347 0 11.5 5.153 11.5 11.5s-5.153 11.5-11.5 11.5-11.5-5.153-11.5-11.5 5.153-11.5 11.5-11.5zm0 1c5.795 0 10.5 4.705 10.5 10.5s-4.705 10.5-10.5 10.5-10.5-4.705-10.5-10.5 4.705-10.5 10.5-10.5zm.5 10h6v1h-6v6h-1v-6h-6v-1h6v-6h1v6z" />
+          </svg>
+        </Button>
+      </section>
       <DataTable className="DataTable" title="Tabla de Educación" thead={thead}>
         {educationtypes.map((item, key) => (
           <tr className="DataTable-tr" key={key}>
@@ -118,6 +147,25 @@ export const EducationType = () => {
             />
           </section>
           <Button className="Button" title="Editar" />
+        </form>
+      </Modal>
+      <Modal
+        className="Modal"
+        resize="Portal-window--resize"
+        active={activeCreate}
+        toggle={toggleCreate}
+      >
+        <h3 className="Modal-title">Ingresar</h3>
+        <form onSubmit={(e) => submitCreate(e)} className="Form">
+          <section className="Form-inputs">
+            <input
+              type="text"
+              placeholder="Ingrese"
+              onChange={handle}
+              className="Form-inputs--input"
+            />
+          </section>
+          <Button className="Button" title="Agregar" />
         </form>
       </Modal>
     </section>
