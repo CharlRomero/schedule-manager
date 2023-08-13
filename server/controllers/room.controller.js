@@ -3,7 +3,7 @@ import { pool } from "../database.js";
 export const getRooms = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM ROOM ORDER BY ROOM_NAME ASC"
+      "SELECT * FROM ROOM WHERE ROOM_STATUS = TRUE ORDER BY ROOM_NAME ASC"
     );
     res.json(rows);
   } catch (error) {
