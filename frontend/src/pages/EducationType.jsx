@@ -38,6 +38,15 @@ export const EducationType = () => {
     setData(newData);
   };
 
+  const submitEdit = (e) => {
+    e.preventDefault();
+    axios
+      .patch(`${apiURL}educationtype/${data.TYPE_ID}`, {
+        TYPE_NAME: data.TYPE_NAME,
+      })
+      .then(() => window.location.reload());
+  };
+
   return (
     <section className="Table">
       <section className="Table-buttons"></section>
