@@ -42,9 +42,7 @@ export const Room = () => {
       .patch(`${apiURL}room/${data.ID_ROOM}`, {
         ROOM_NAME: data.ROOM_NAME,
       })
-      .then(() => {
-        window.location.reload();
-      });
+      .then(() => window.location.reload());
   };
 
   const create = (e) => {
@@ -53,9 +51,12 @@ export const Room = () => {
       .post(`${apiURL}room`, {
         ROOM_NAME: data.ROOM_NAME,
       })
-      .then(() => {
-        window.location.reload();
-      });
+      .then(() => window.location.reload());
+  };
+
+  const deleteRoom = (e, id) => {
+    e.preventDefault();
+    axios.delete(`${apiURL}room/${id}`).then(() => window.location.reload());
   };
 
   return (
@@ -112,7 +113,11 @@ export const Room = () => {
                     />
                   </svg>
                 </button>
-                <button>
+                <button
+                  onClick={(e) => {
+                    deleteRoom(e, item.ROOM_ID);
+                  }}
+                >
                   <svg
                     clipRule="evenodd"
                     fillRule="evenodd"

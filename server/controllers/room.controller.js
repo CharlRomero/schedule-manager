@@ -2,7 +2,9 @@ import { pool } from "../database.js";
 
 export const getRooms = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM ROOM ORDER BY ROOM_NAME ASC");
+    const [rows] = await pool.query(
+      "SELECT * FROM ROOM ORDER BY ROOM_NAME ASC"
+    );
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
@@ -46,7 +48,25 @@ export const updateRoom = async (req, res) => {
 
   if (result.affectedRows === 0)
     return res.status(404).json({
-      message: "Slot not found",
+      message: "Room not found",
+    });
+
+  const [rows] = await pool.query("SELECT * FROM ROOM WHERE ROOM_ID = ?", [id]);
+
+  res.json(rows);
+};
+
+export const deleteRoom = async (req, res) => {
+  const { id } = req.params;
+
+  const [result] = await pool.query(
+    "UPDATE ROOM SET ROOM_STATUS = FALSE WHERE ROOM_ID = ?",
+    [id]
+  );
+
+  if (result.affectedRows === 0)
+    return res.status(404).json({
+      message: "Room not found",
     });
 
   const [rows] = await pool.query("SELECT * FROM ROOM WHERE ROOM_ID = ?", [id]);
