@@ -28,6 +28,16 @@ export const EducationType = () => {
       .then(() => window.location.reload());
   };
 
+  const toggleUpdate = () => {
+    setActiveUpdate(!activeUpdate);
+  };
+
+  const handle = (e) => {
+    const newData = { ...data };
+    newData["TYPE_NAME"] = e.target.value;
+    setData(newData);
+  };
+
   return (
     <section className="Table">
       <section className="Table-buttons"></section>
@@ -82,6 +92,25 @@ export const EducationType = () => {
           </tr>
         ))}
       </DataTable>
+      <Modal
+        className="Modal"
+        resize="Portal-window--resize"
+        active={activeUpdate}
+        toggle={toggleUpdate}
+      >
+        <h3 className="Modal-title">{`Editar`}</h3>
+        <form onSubmit={(e) => submitEdit(e)} className="Form">
+          <section className="Form-inputs">
+            <input
+              className="Form-inputs--input"
+              type="text"
+              defaultValue={data.TYPE_NAME}
+              onChange={handle}
+            />
+          </section>
+          <Button className="Button" title="Editar" />
+        </form>
+      </Modal>
     </section>
   );
 };
