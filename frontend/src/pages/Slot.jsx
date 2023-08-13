@@ -24,8 +24,17 @@ export const Slot = () => {
   const URL = `${apiURL}slot`;
   const slots = useFetch(URL);
 
+  const formatTimeToString = (time) => {
+    const [hours, minutes] = time.split(".");
+    return `${hours}:${minutes}`;
+  };
+
   const toggleUpdate = () => {
     setActiveUpdate(!activeUpdate);
+  };
+
+  const toggleCreate = () => {
+    setActiveCreate(!activeCreate);
   };
 
   const deleteSlot = (e, id) => {
@@ -33,9 +42,59 @@ export const Slot = () => {
     axios.delete(`${apiURL}slot/${id}`).then(() => window.location.reload());
   };
 
+  const submitEdit = (e) => {
+    e.preventDefault();
+
+    axios
+      .patch(`${apiURL}slot/${data.SLOT_ID}`, {
+        SLOT_INITIME: data.SLOT_INITIME,
+        SLOT_ENDTIME: data.SLOT_ENDTIME,
+      })
+      .then(() => window.location.reload());
+  };
+
+  const submitCreate = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${apiURL}slot`, {
+        SLOT_INITIME: data.SLOT_INITIME,
+        SLOT_ENDTIME: data.SLOT_ENDTIME,
+        SLOT_WEEKEND: false,
+      })
+      .then(() => window.location.reload());
+  };
+
+  const handleInitHour = (e) => {
+    const newData = { ...data };
+    newData["SLOT_INITIME"] = e.target.value;
+    setData(newData);
+  };
+  const handleEndHour = (e) => {
+    const newData = { ...data };
+    newData["SLOT_ENDTIME"] = e.target.value;
+    setData(newData);
+  };
+
   return (
     <section className="Table">
-      <section className="Table-buttons"></section>
+      <section className="Table-buttons">
+        <Button
+          className="Button Table-buttons--right"
+          title="Agregar"
+          onClick={toggleCreate}
+        >
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            className="Button-svg"
+          >
+            <path d="M11.5 0c6.347 0 11.5 5.153 11.5 11.5s-5.153 11.5-11.5 11.5-11.5-5.153-11.5-11.5 5.153-11.5 11.5-11.5zm0 1c5.795 0 10.5 4.705 10.5 10.5s-4.705 10.5-10.5 10.5-10.5-4.705-10.5-10.5 4.705-10.5 10.5-10.5zm.5 10h6v1h-6v6h-1v-6h-6v-1h6v-6h1v6z" />
+          </svg>
+        </Button>
+      </section>
       <DataTable className="DataTable" title="Tabla de Franjas" thead={thead}>
         {slots.map((item, key) => (
           <tr className="DataTable-tr" key={key}>
@@ -97,19 +156,46 @@ export const Slot = () => {
         toggle={toggleUpdate}
       >
         <h3 className="Modal-title">{`Editar franjas`}</h3>
-        <form onSubmit={(e) => submit(e)} className="Form">
+        <form onSubmit={(e) => submitEdit(e)} className="Form">
           <section className="From-inputs">
             <input
               className="Form-inputs--input"
               type="time"
               defaultValue={data.SLOT_INITIME}
+              onChange={handleInitHour}
             />
             <input
               className="Form-inputs--input"
               type="time"
               defaultValue={data.SLOT_ENDTIME}
+              onChange={handleEndHour}
             />
-            <Button className="Button" title="Editar"/>
+            <Button className="Button" title="Editar" />
+          </section>
+        </form>
+      </Modal>
+      <Modal
+        className="Modal"
+        resize="Portal-window--resize"
+        active={activeCreate}
+        toggle={toggleCreate}
+      >
+        <h3 className="Modal-title">{`Editar franjas`}</h3>
+        <form onSubmit={(e) => submitCreate(e)} className="Form">
+          <section className="From-inputs">
+            <input
+              className="Form-inputs--input"
+              type="time"
+              defaultValue={data.SLOT_INITIME}
+              onChange={handleInitHour}
+            />
+            <input
+              className="Form-inputs--input"
+              type="time"
+              defaultValue={data.SLOT_ENDTIME}
+              onChange={handleEndHour}
+            />
+            <Button className="Button" title="Agregar" />
           </section>
         </form>
       </Modal>

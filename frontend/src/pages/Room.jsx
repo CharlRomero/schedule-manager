@@ -15,7 +15,7 @@ export const Room = () => {
   const [active, setActive] = useState(false);
   const [activeModal, setActiveModal] = useState(false);
   const [data, setData] = useState({
-    ID_ROOM: "",
+    ROOM_ID: "",
     ROOM_NAME: "",
   });
 
@@ -39,7 +39,7 @@ export const Room = () => {
   const submit = (e) => {
     e.preventDefault();
     axios
-      .patch(`${apiURL}room/${data.ID_ROOM}`, {
+      .patch(`${apiURL}room/${data.ROOM_ID}`, {
         ROOM_NAME: data.ROOM_NAME,
       })
       .then(() => window.location.reload());
@@ -94,7 +94,7 @@ export const Room = () => {
                   onClick={() => {
                     setActive(!active);
                     setData({
-                      ID_ROOM: item.ROOM_ID,
+                      ROOM_ID: item.ROOM_ID,
                       ROOM_NAME: item.ROOM_NAME,
                     });
                   }}
