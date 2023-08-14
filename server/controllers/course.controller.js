@@ -60,3 +60,18 @@ export const updateCourse = async (req, res) => {
 
   res.json(rows);
 };
+
+export const deleteCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [row] = await pool.query("DELETE FROM COURSE WHERE COU_ID = ?", [
+      id,
+    ]);
+    res.json(row);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something goes wrong",
+    });
+  }
+};
