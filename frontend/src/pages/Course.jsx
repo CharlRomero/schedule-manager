@@ -12,28 +12,44 @@ const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo", ""];
 
 export const Course = () => {
   const [active, setActive] = useState(false);
-  const [id, setId] = useState("");
-  const [yearLvl, setYearLvl] = useState("");
-  const [room, setRoom] = useState("");
-  const [yearType, setYearType] = useState("");
-  const [perCode, setPerCode] = useState("");
-
+  const [cou, setCou] = useState({
+    yearLvl: "",
+    room: "",
+    type: "",
+    period: "",
+  });
   //Datos
-  const [data, setData] = useState({});
-  //
+  const [data, setData] = useState({
+    COU_ID: "",
+    YEAR_LEVEL: "",
+    ROOM_NAME: "",
+    TYPE_NAME: "",
+    PER_CODE: "",
+  });
+
+  const [db, setDb] = useState({
+    periods: useFetch(`${apiURL}period`),
+    educationyears: useFetch(`${apiURL}educationyear`),
+    rooms: useFetch(`${apiURL}room`),
+  });
+  
   const courses = useFetch(`${apiURL}course`);
-
-  const periods = useFetch(`${apiURL}period`);
-
-  const educationyears = useFetch(`${apiURL}educationyear`);
-
-  const rooms = useFetch(`${apiURL}room`);
 
   const toggle = () => {
     setActive(!active);
   };
 
-  const handle = (e) => {};
+  const handlePeriod = (e) => {
+    const newData = { ...data };
+    newData["PER_CODE"] = e.target.value;
+    setData(newData);
+  };
+
+  const handleEducationType = (e) => {
+    const newData = { ...data };
+    newData["TYPE_NAME"] = e.target.value;
+    setData(newData);
+  };
 
   return (
     <section className="Table">
@@ -50,11 +66,19 @@ export const Course = () => {
                 <button
                   onClick={() => {
                     setActive(!active);
-                    setId(course.COU_ID);
-                    setYearLvl(course.YEAR_LEVEL);
-                    setRoom(course.ROOM_NAME);
-                    setYearType(course.TYPE_NAME);
-                    setPerCode(course.PER_CODE);
+                    setData({
+                      COU_ID: course.COU_ID,
+                      YEAR_LEVEL: course.YEAR_LEVEL,
+                      ROOM_NAME: course.ROOM_NAME,
+                      TYPE_NAME: course.TYPE_NAME,
+                      PER_CODE: course.PER_CODE,
+                    });
+                    setCou({
+                      yearLvl: course.YEAR_LEVEL,
+                      room: course.ROOM_NAME,
+                      type: course.TYPE_NAME,
+                      period: course.PER_CODE,
+                    });
                   }}
                 >
                   <svg
@@ -75,8 +99,8 @@ export const Course = () => {
                   <svg
                     clipRule="evenodd"
                     fillRule="evenodd"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="2"
+                    strokeLinejoin="round"
+                    strokeMiterlimit="2"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                     className="DataTable-svg"
@@ -93,24 +117,32 @@ export const Course = () => {
         ))}
       </DataTable>
       <Modal className="Modal" active={active} toggle={toggle}>
-        <h3 className="Modal-title">{`Editar curso: ${yearLvl} ${room} ${yearType}`}</h3>
-        <form className="Form">
+        <h3 className="Modal-title">{`Editar curso: ${cou.yearLvl} ${cou.room} ${cou.type}`}</h3>
+        <form className="Form" onSubmit={(e) => submitEdit(e)}>
           <section className="Form-inputs">
-            <select className="Form-inputs--input">
-              {periods.map((period, key) => (
-                <option key={key} defaultValue={perCode}>
-                  {period.PER_CODE}
-                </option>
-              ))}
-            </select>
-            <select className="Form-inputs--input">
-              {rooms.map((element, key) => (
+            <input
+              type="text"
+              className="Form-inputs--input"
+              defaultValue={cou.yearLvl}
+            />
+            <select
+              className="Form-inputs--input"
+              onChange={handleEducationType}
+            >
+              {db.rooms.map((element, key) => (
                 <option
                   key={key}
-                  defaultValue={room}
+                  defaultValue={data.TYPE_NAME}
                   onClick={() => alert(element.ROOM_ID)}
                 >
                   {element.ROOM_NAME}
+                </option>
+              ))}
+            </select>
+            <select className="Form-inputs--input" onChange={handlePeriod}>
+              {db.periods.map((period, key) => (
+                <option key={key} defaultValue={data.PER_CODE}>
+                  {period.PER_CODE}
                 </option>
               ))}
             </select>
