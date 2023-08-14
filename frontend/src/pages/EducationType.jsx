@@ -79,7 +79,7 @@ export const EducationType = () => {
           </svg>
         </Button>
       </section>
-      <DataTable className="DataTable" title="Tabla de Educación" thead={thead}>
+      <DataTable className="DataTable DataTable--resize" title="Tabla de Educación" thead={thead}>
         {educationtypes.map((item, key) => (
           <tr className="DataTable-tr" key={key}>
             <td className="DataTable-td">{key + 1}</td>

@@ -157,7 +157,7 @@ export const Slot = () => {
       >
         <h3 className="Modal-title">{`Editar franjas`}</h3>
         <form onSubmit={(e) => submitEdit(e)} className="Form">
-          <section className="From-inputs">
+          <section className="Form-inputs">
             <input
               className="Form-inputs--input"
               type="time"
@@ -182,7 +182,7 @@ export const Slot = () => {
       >
         <h3 className="Modal-title">{`Editar franjas`}</h3>
         <form onSubmit={(e) => submitCreate(e)} className="Form">
-          <section className="From-inputs">
+          <section className="Form-inputs">
             <input
               className="Form-inputs--input"
               type="time"
