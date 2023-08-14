@@ -27,13 +27,10 @@ export const Course = () => {
     PER_CODE: "",
   });
 
-  const [db, setDb] = useState({
-    periods: useFetch(`${apiURL}period`),
-    educationyears: useFetch(`${apiURL}educationyear`),
-    rooms: useFetch(`${apiURL}room`),
-  });
-  
   const courses = useFetch(`${apiURL}course`);
+  const periods = useFetch(`${apiURL}period`);
+  const educationyears = useFetch(`${apiURL}educationyear`);
+  const rooms = useFetch(`${apiURL}room`);
 
   const toggle = () => {
     setActive(!active);
@@ -49,6 +46,11 @@ export const Course = () => {
     const newData = { ...data };
     newData["TYPE_NAME"] = e.target.value;
     setData(newData);
+  };
+
+  const submitEdit = (e) => {
+    e.preventDefault();
+    axios.path(`${apiURL}educationyear/${data}`);
   };
 
   return (
@@ -129,7 +131,7 @@ export const Course = () => {
               className="Form-inputs--input"
               onChange={handleEducationType}
             >
-              {db.rooms.map((element, key) => (
+              {rooms.map((element, key) => (
                 <option
                   key={key}
                   defaultValue={data.TYPE_NAME}
@@ -140,7 +142,7 @@ export const Course = () => {
               ))}
             </select>
             <select className="Form-inputs--input" onChange={handlePeriod}>
-              {db.periods.map((period, key) => (
+              {periods.map((period, key) => (
                 <option key={key} defaultValue={data.PER_CODE}>
                   {period.PER_CODE}
                 </option>
