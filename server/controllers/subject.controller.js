@@ -2,7 +2,9 @@ import { pool } from "../database.js";
 
 export const getSubject = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM SUBJECT");
+    const [rows] = await pool.query(
+      "SELECT * FROM SUBJECT WHERE SUB_STATUS = TRUE"
+    );
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
@@ -59,6 +61,24 @@ export const updateSubject = async (req, res) => {
     return res.status(404).json({
       message: "Subject not found",
     });
+
+  const [rows] = await pool.query("SELECT * FROM SUBJECT WHERE SUB_ID = ?", [
+    id,
+  ]);
+
+  res.json(rows);
+};
+
+export const deleteSubject = async (req, res) => {
+  const { id } = req.params;
+
+  const [result] = await pool.query(
+    "UPDATE SUBJECT SET SUB_STATUS = FALSE WHERE SUB_ID = ?",
+    [id]
+  );
+
+  if (result.affectedRows === 0)
+    return res.status(404).json({ message: "Subject not found" });
 
   const [rows] = await pool.query("SELECT * FROM SUBJECT WHERE SUB_ID = ?", [
     id,

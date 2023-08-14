@@ -50,7 +50,7 @@ export const Course = () => {
 
   const submitEdit = (e) => {
     e.preventDefault();
-    axios.path(`${apiURL}educationyear/${data}`);
+    axios.path(`${apiURL}educationyear/${data.COU_ID}`);
   };
 
   return (
