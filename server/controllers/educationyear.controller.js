@@ -15,9 +15,10 @@ export const getYear = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const [row] = await pool.query("SELECT * FROM EDUCATIONYEAR WHERE YEAR_ID = ?", [
-      id,
-    ]);
+    const [row] = await pool.query(
+      "SELECT * FROM EDUCATIONYEAR WHERE YEAR_ID = ?",
+      [id]
+    );
     res.json(row);
   } catch (error) {
     return res.status(500).json({
@@ -35,4 +36,24 @@ export const createYear = async (req, res) => {
     PER_ID: rows.insertId,
     PER_NAME,
   });
+};
+
+export const updateEducationYear = async (req, res) => {
+  const { id } = req.params;
+  const { YEAR_LVL, TYPE_ID } = req.body;
+
+  const [result] = await pool.query(
+    "UPDATE EDUCATIONYEAR SET YEAR_LVL = IFNULL(?, YEAR_LVL), TYPE_ID = IFNULL(?, TYPE_ID) WHERE YEAR_ID = ?",
+    [YEAR_LVL, TYPE_ID, id]
+  );
+
+  if (result.affectedRows === 0)
+    return res.status(404).json({ message: "Education year not found" });
+
+  const [rows] = await pool.query(
+    "SELECT * FROM EDUCATIONYEAR WHERE YEAR_ID = ?",
+    [id]
+  );
+
+  res.json(rows);
 };

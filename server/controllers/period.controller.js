@@ -2,7 +2,7 @@ import { pool } from "../database.js";
 
 export const getPeriods = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM PERIOD");
+    const [rows] = await pool.query("SELECT * FROM PERIOD WHERE PER_STATUS = TRUE");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
@@ -49,6 +49,26 @@ export const updatePeriod = async (req, res) => {
   if (result.affectedRows === 0)
     return res.status(404).json({
       message: "Course not found",
+    });
+
+  const [rows] = await pool.query("SELECT * FROM PERIOD WHERE PER_ID = ?", [
+    id,
+  ]);
+
+  res.json(rows);
+};
+
+export const deletePeriod = async (req, res) => {
+  const { id } = req.params;
+
+  const [result] = await pool.query(
+    "UPDATE PERIOD SET PER_STATUS = FALSE WHERE PER_ID = ?",
+    [id]
+  );
+
+  if (result.affectedRows === 0)
+    return res.status(404).json({
+      message: "Period not found",
     });
 
   const [rows] = await pool.query("SELECT * FROM PERIOD WHERE PER_ID = ?", [

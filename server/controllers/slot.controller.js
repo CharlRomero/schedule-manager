@@ -2,7 +2,9 @@ import { pool } from "../database.js";
 
 export const getSlot = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM SLOT");
+    const [rows] = await pool.query(
+      "SELECT * FROM SLOT WHERE SLOT_STATUS = TRUE"
+    );
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
@@ -32,6 +34,24 @@ export const updateSlot = async (req, res) => {
   const [result] = await pool.query(
     "UPDATE SLOT SET SLOT_INITIME = IFNULL(?, SLOT_INITIME), SLOT_ENDTIME = IFNULL(?, SLOT_ENDTIME), SLOT_WEEKEND = IFNULL(?, SLOT_WEEKEND) WHERE SLOT_ID = ?",
     [SLOT_INITIME, SLOT_ENDTIME, SLOT_WEEKEND, id]
+  );
+
+  if (result.affectedRows === 0)
+    return res.status(404).json({
+      message: "Slot not found",
+    });
+
+  const [rows] = await pool.query("SELECT * FROM SLOT WHERE SLOT_ID = ?", [id]);
+
+  res.json(rows);
+};
+
+export const deleteSlot = async (req, res) => {
+  const { id } = req.params;
+
+  const [result] = await pool.query(
+    "UPDATE SLOT SET SLOT_STATUS = FALSE WHERE SLOT_ID = ?",
+    [id]
   );
 
   if (result.affectedRows === 0)

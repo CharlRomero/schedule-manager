@@ -7,7 +7,7 @@
   @include mixin.flex;
   gap: 0.625rem;
   color: map-get(variable.$colors, "black");
-  background-color: map-get(variable.$colors, "secondary");
+  background-color: map-get(variable.$colors, "primary");
   width: 7.5rem;
   border-radius: 1rem;
   padding: 0.4375rem;

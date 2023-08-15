@@ -6,7 +6,8 @@ import courseRoute from "./routes/course.routes.js";
 import subjectRoute from "./routes/subject.routes.js";
 import slotRoute from "./routes/slot.routes.js";
 import periodRoute from "./routes/period.routes.js";
-import educationyearRoute from "./routes/educationyear.routes.js";
+import educationYearRoute from "./routes/educationyear.routes.js";
+import educationTypeRoute from "./routes/educationtype.routes.js";
 import roomRoute from "./routes/room.routes.js";
 
 const app = express();
@@ -27,7 +28,8 @@ app.use("/", courseRoute);
 app.use("/", subjectRoute);
 app.use("/", slotRoute);
 app.use("/", periodRoute);
-app.use("/", educationyearRoute);
+app.use("/", educationYearRoute);
+app.use("/", educationTypeRoute);
 app.use("/", roomRoute);
 
 app.use((req, res, next) => {
