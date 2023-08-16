@@ -138,7 +138,7 @@ export const Period = () => {
         toggle={toggleCreate}
       >
         <h3 className="Modal-title">Agregar nuevo periodo</h3>
-        <form onSubmit={(e) => submit(e)} className="Form">
+        <form onSubmit={(e) => create(e)} className="Form">
           <section className="Form-inputs">
             <input
               className="Form-inputs--input"

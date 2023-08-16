@@ -11,7 +11,7 @@ import "./sass/style.scss";
 import { Room } from "./pages/Room.jsx";
 import { Period } from "./pages/Period.jsx";
 import { Subject } from "./pages/Subject.jsx";
-import { Table } from "./pages/Table.jsx";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

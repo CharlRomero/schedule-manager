@@ -23,3 +23,58 @@
   box-shadow: inset -3px -3px 7px #c9c3b9, inset 3px 3px 7px #ffffff;
   cursor: pointer;
 }
+//estilos para la lista de cursos
+.save-schedule-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.course-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.selected-course {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.selected-course h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.selected-course p {
+  margin: 0;
+}
+// estilo para el boton e guardar
+
+/* SaveSchedule.css */
+.save-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
