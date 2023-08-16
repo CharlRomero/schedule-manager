@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 import { useFetch } from "../util/useFetch";
 
@@ -11,7 +12,8 @@ const apiURL = import.meta.env.VITE_API;
 const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo", ""];
 
 export const Course = () => {
-  const [active, setActive] = useState(false);
+  const [activeEdit, setActiveEdit] = useState(false);
+  const [typeId, setTypeId] = useState("1");
   const [cou, setCou] = useState({
     yearLvl: "",
     room: "",
@@ -21,19 +23,24 @@ export const Course = () => {
   //Datos
   const [data, setData] = useState({
     COU_ID: "",
+    YEAR_ID: "",
     YEAR_LEVEL: "",
+    ROOM_ID: "",
     ROOM_NAME: "",
+    TYPE_ID: "",
     TYPE_NAME: "",
+    PER_ID: "",
     PER_CODE: "",
   });
 
   const courses = useFetch(`${apiURL}course`);
   const periods = useFetch(`${apiURL}period`);
-  const educationyears = useFetch(`${apiURL}educationyear`);
+  const educationyears = useFetch(`${apiURL}educationyears/${typeId}`);
+  const educationtypes = useFetch(`${apiURL}educationtype`);
   const rooms = useFetch(`${apiURL}room`);
 
   const toggle = () => {
-    setActive(!active);
+    setActiveEdit(!activeEdit);
   };
 
   const handlePeriod = (e) => {
@@ -42,19 +49,58 @@ export const Course = () => {
     setData(newData);
   };
 
-  const handleEducationType = (e) => {
+  const handleRoom = (e) => {
     const newData = { ...data };
-    newData["TYPE_NAME"] = e.target.value;
+    newData["ROOM_ID"] = e.target.value;
     setData(newData);
+  };
+
+  const handleYear = (e) => {
+    const newData = { ...data };
+    newData["YEAR_LEVEL"] = e.target.value;
+    setData(newData);
+  };
+
+  const handleType = (e) => {
+    const newData = { ...data };
+    newData["TYPE_ID"] = e.target.value;
+    setData(newData);
+    setTypeId(e.target.value);
+  };
+
+  const submitEditYear = (e) => {
+    e.preventDefault();
+    axios.patch(`${apiURL}educationyear/${data.YEAR_ID}`, {
+      YEAR_LEVEL: data.YEAR_LEVEL,
+      TYPE_ID: data.TYPE_ID,
+    });
   };
 
   const submitEdit = (e) => {
     e.preventDefault();
-    axios.path(`${apiURL}educationyear/${data.COU_ID}`);
+    axios
+      .patch(`${apiURL}course/${data.COU_ID}`, {
+        ROOM_ID: data.ROOM_ID,
+      })
+      .then(() => window.location.reload());
   };
 
   return (
     <section className="Table">
+      <section className="Table-buttons">
+        <Button className="Button Table-buttons--right" title="Agregar">
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            className="Button-svg"
+          >
+            <path d="M11.5 0c6.347 0 11.5 5.153 11.5 11.5s-5.153 11.5-11.5 11.5-11.5-5.153-11.5-11.5 5.153-11.5 11.5-11.5zm0 1c5.795 0 10.5 4.705 10.5 10.5s-4.705 10.5-10.5 10.5-10.5-4.705-10.5-10.5 4.705-10.5 10.5-10.5zm.5 10h6v1h-6v6h-1v-6h-6v-1h6v-6h1v6z" />
+          </svg>
+        </Button>
+      </section>
       <DataTable className="DataTable" title="Cursos" thead={thead}>
         {courses.map((course, key) => (
           <tr key={key} className="DataTable-tr">
@@ -67,9 +113,10 @@ export const Course = () => {
               <div className="DataTable-buttons">
                 <button
                   onClick={() => {
-                    setActive(!active);
+                    setActiveEdit(!activeEdit);
                     setData({
                       COU_ID: course.COU_ID,
+                      YEAR_ID: course.YEAR_ID,
                       YEAR_LEVEL: course.YEAR_LEVEL,
                       ROOM_NAME: course.ROOM_NAME,
                       TYPE_NAME: course.TYPE_NAME,
@@ -118,32 +165,40 @@ export const Course = () => {
           </tr>
         ))}
       </DataTable>
-      <Modal className="Modal" active={active} toggle={toggle}>
+      <Modal className="Modal" active={activeEdit} toggle={toggle}>
         <h3 className="Modal-title">{`Editar curso: ${cou.yearLvl} ${cou.room} ${cou.type}`}</h3>
-        <form className="Form" onSubmit={(e) => submitEdit(e)}>
+        <form
+          className="Form"
+          onSubmit={(e) => {
+            submitEditYear(e);
+            submitEdit(e);
+          }}
+        >
           <section className="Form-inputs">
-            <input
-              type="text"
-              className="Form-inputs--input"
-              defaultValue={cou.yearLvl}
-            />
-            <select
-              className="Form-inputs--input"
-              onChange={handleEducationType}
-            >
+            <select className="Form-inputs--input" onChange={handleType}>
+              {educationtypes.map((element, key) => (
+                <option key={key} value={key + 1} defaultValue={1}>
+                  {element.TYPE_NAME}
+                </option>
+              ))}
+            </select>
+            <select className="Form-inputs--input">
+              {educationyears.map((element, key) => (
+                <option key={key} value={key + 1} defaultValue={1}>
+                  {element.YEAR_LEVEL}
+                </option>
+              ))}
+            </select>
+            <select className="Form-inputs--input" onChange={handleRoom}>
               {rooms.map((element, key) => (
-                <option
-                  key={key}
-                  defaultValue={data.TYPE_NAME}
-                  onClick={() => alert(element.ROOM_ID)}
-                >
+                <option key={key} value={key + 1} defaultValue={1}>
                   {element.ROOM_NAME}
                 </option>
               ))}
             </select>
             <select className="Form-inputs--input" onChange={handlePeriod}>
               {periods.map((period, key) => (
-                <option key={key} defaultValue={data.PER_CODE}>
+                <option key={key} value={key + 1} defaultValue={1}>
                   {period.PER_CODE}
                 </option>
               ))}

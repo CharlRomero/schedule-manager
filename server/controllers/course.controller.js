@@ -42,11 +42,11 @@ export const createCourse = async (req, res) => {
 
 export const updateCourse = async (req, res) => {
   const { id } = req.params;
-  const { COU_NAME, COU_YEAR, COU_PERIOD } = req.body;
+  const { YEAR_ID, PER_ID, ROOM_ID } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE COURSE SET COU_NAME = IFNULL(?, COU_NAME), COU_YEAR = IFNULL(?, COU_YEAR), COU_PERIOD = IFNULL(?, COU_PERIOD) WHERE COU_ID = ?",
-    [COU_NAME, COU_YEAR, COU_PERIOD, id]
+    "UPDATE COURSE SET YEAR_ID = IFNULL(?, YEAR_ID), PER_ID = IFNULL(?, PER_ID), ROOM_ID = IFNULL(?, ROOM_ID) WHERE COU_ID = ?",
+    [YEAR_ID, PER_ID, ROOM_ID, id]
   );
 
   if (result.affectedRows === 0)
@@ -54,7 +54,7 @@ export const updateCourse = async (req, res) => {
       message: "Course not found",
     });
 
-  const [rows] = await pool.query("SELECT * FROM COURSE WHERE COU_ID = ?", [
+  const [rows] = await pool.query("SELECT * FROM COURSE_VW WHERE COU_ID = ?", [
     id,
   ]);
 

@@ -11,6 +11,19 @@ export const getYears = async (req, res) => {
   }
 };
 
+export const getYearByType = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query(
+      "SELECT YEAR_LEVEL FROM EDUCATIONYEAR y, EDUCATIONTYPE t WHERE y.TYPE_ID = t.TYPE_ID and t.TYPE_ID = ?",
+      [id]
+    );
+    res.json(rows);
+  } catch (error) {
+    return res.status(500).json({ message: "Something goes wrong" });
+  }
+};
+
 export const getYear = async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,11 +53,11 @@ export const createYear = async (req, res) => {
 
 export const updateEducationYear = async (req, res) => {
   const { id } = req.params;
-  const { YEAR_LVL, TYPE_ID } = req.body;
+  const { YEAR_LEVEL, TYPE_ID } = req.body;
 
   const [result] = await pool.query(
-    "UPDATE EDUCATIONYEAR SET YEAR_LVL = IFNULL(?, YEAR_LVL), TYPE_ID = IFNULL(?, TYPE_ID) WHERE YEAR_ID = ?",
-    [YEAR_LVL, TYPE_ID, id]
+    "UPDATE EDUCATIONYEAR SET YEAR_LEVEL = IFNULL(?, YEAR_LEVEL), TYPE_ID = IFNULL(?, TYPE_ID) WHERE YEAR_ID = ?",
+    [YEAR_LEVEL, TYPE_ID, id]
   );
 
   if (result.affectedRows === 0)
