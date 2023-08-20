@@ -3,7 +3,7 @@ import { pool } from "../database.js";
 export const getSlot = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM SLOT WHERE SLOT_STATUS = TRUE"
+      "SELECT *FROM SLOT"
     );
     res.json(rows);
   } catch (error) {

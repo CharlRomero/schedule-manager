@@ -9,6 +9,7 @@ import periodRoute from "./routes/period.routes.js";
 import educationYearRoute from "./routes/educationyear.routes.js";
 import educationTypeRoute from "./routes/educationtype.routes.js";
 import roomRoute from "./routes/room.routes.js";
+import scheduleRoute from "./routes/schedule.routes.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/", periodRoute);
 app.use("/", educationYearRoute);
 app.use("/", educationTypeRoute);
 app.use("/", roomRoute);
+app.use("/", scheduleRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({

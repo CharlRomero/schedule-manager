@@ -27,11 +27,7 @@ create table COURSE
    YEAR_ID              int not null,
    PER_ID               int not null,
    ROOM_ID              int not null,
-<<<<<<< HEAD
    COU_STATUS           bool not null default 1,
-=======
-   COU_STATUS           bool not null default TRUE,
->>>>>>> charlie
    primary key (COU_ID)
 );
 
