@@ -13,6 +13,7 @@ const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo", ""];
 
 export const Course = () => {
   const [activeEdit, setActiveEdit] = useState(false);
+  const [activeCreate, setActiveCreate] = useState(false);
   const [typeId, setTypeId] = useState("1");
   const [cou, setCou] = useState({
     yearLvl: "",
@@ -39,8 +40,11 @@ export const Course = () => {
   const educationtypes = useFetch(`${apiURL}educationtype`);
   const rooms = useFetch(`${apiURL}room`);
 
-  const toggle = () => {
+  const toggleEdit = () => {
     setActiveEdit(!activeEdit);
+  };
+  const toggleCreate = () => {
+    setActiveCreate(!activeCreate);
   };
 
   const handlePeriod = (e) => {
@@ -88,7 +92,11 @@ export const Course = () => {
   return (
     <section className="Table">
       <section className="Table-buttons">
-        <Button className="Button Table-buttons--right" title="Agregar">
+        <Button
+          className="Button Table-buttons--right"
+          title="Agregar"
+          onClick={toggleCreate}
+        >
           <svg
             width="24"
             height="24"
@@ -165,7 +173,7 @@ export const Course = () => {
           </tr>
         ))}
       </DataTable>
-      <Modal className="Modal" active={activeEdit} toggle={toggle}>
+      <Modal className="Modal" active={activeEdit} toggle={toggleEdit}>
         <h3 className="Modal-title">{`Editar curso: ${cou.yearLvl} ${cou.room} ${cou.type}`}</h3>
         <form
           className="Form"
@@ -205,6 +213,32 @@ export const Course = () => {
             </select>
           </section>
           <Button className="Button" title="Editar" />
+        </form>
+      </Modal>
+      <Modal
+        className="Modal"
+        resize="Portal-window--room"
+        active={activeCreate}
+        toggle={toggleCreate}
+      >
+        <h3 className="Modal-title">Ingrese un nuevo curso</h3>
+        <form onSubmit={(e) => submitCreate(e)} className="Form">
+          <section className="Form-inputs">
+            <select className="Form-inputs--input" onChange={handleRoom}>
+              {rooms.map((element, key) => (
+                <option key={key} value={key + 1} defaultValue={1}>
+                  {element.ROOM_NAME}
+                </option>
+              ))}
+            </select>
+            <select className="Form-inputs--input" onChange={handlePeriod}>
+              {periods.map((period, key) => (
+                <option key={key} value={key + 1} defaultValue={1}>
+                  {period.PER_CODE}
+                </option>
+              ))}
+            </select>
+          </section>
         </form>
       </Modal>
     </section>
