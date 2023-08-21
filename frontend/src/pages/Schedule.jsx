@@ -69,7 +69,7 @@ const handleCourseChange = (event) => {
   
   const generateButtonsAutomatically = (day, numbersOnly) => {
     
-
+    //console.log("dia:",day,"string:",numbersOnly);
     const subjectIds = numbersOnly;
     const idsArray = subjectIds.split(",").map(id => parseInt(id.trim()));
     const selectedDay = day;
@@ -87,11 +87,16 @@ const handleCourseChange = (event) => {
         if (!isSlotOccupied) {
           const newScheduleItem = { subject: subjectName, day: selectedDay, timeSlot };
           setSchedule((prevSchedule) => [...prevSchedule, newScheduleItem]);
+          
+          
+          console.log("generarhorario color:",staticColors[subjectId]);
+          setSubjectColors((prevColors) => ({ ...prevColors, [subjectName]:staticColors[subjectId]}));
   
-          if (!subjectColors[subjectName]) {
-            const newColor = generateRandomColor();
+          /*if (!subjectColors[subjectName]) {
+            const newColor = staticColors[2];
+            console.log("asignar color:",newColor);
             setSubjectColors((prevColors) => ({ ...prevColors, [subjectName]: newColor }));
-          }
+          }*/
         }
       }
     });
@@ -104,7 +109,7 @@ const handleCourseChange = (event) => {
 
     try {
       clearSchedule();
-     // console.log("prueba ",event.target.selectedIndex);
+      console.log("mostrar datos cuadricula ",event.target.selectedIndex);
       const courseId = event.target.selectedIndex;
 
       const response = await axios.get(`http://localhost:3000/courseschedule/${courseId}`);
@@ -177,10 +182,15 @@ const handleCourseChange = (event) => {
     if (!isSlotOccupied && !isSubjectInSchedule) {
       const newScheduleItem = { subject, day, timeSlot };
       setSchedule((prevSchedule) => [...prevSchedule, newScheduleItem]);
+      const subjectId = getSubjectId(subject, subjects);
+
+     // Obtener el color de la materia
+     const subjectColor = staticColors[subjectId] || "#FFFFFF";
   
       // Verificar si el color ya está asignado a la materia
       if (!subjectColors[subject]) {
-        const newColor = generateRandomColor();
+        console.log("hadledrop",subjectColor);
+        const newColor = subjectColor;
         setSubjectColors((prevColors) => ({ ...prevColors, [subject]: newColor }));
       }
     }
@@ -235,6 +245,10 @@ const handleCourseChange = (event) => {
       if (response.ok) {
         console.log("Horario guardado exitosamente.");
         // Realizar alguna acción después de guardar el horario
+        setShowSuccessMessage(true); // Mostrar el mensaje de éxito
+        setTimeout(() => {
+        setShowSuccessMessage(false); // Ocultar el mensaje después de unos segundos
+        }, 3000); // 3000 milisegundos (3 segundos)
       } else {
         console.error("Error al guardar el horario.");
       }
@@ -279,6 +293,7 @@ const handleCourseChange = (event) => {
 };
 //fin del codigo de extraer
   
+const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
 
   const generateRandomColor = () => {
@@ -291,6 +306,18 @@ const handleCourseChange = (event) => {
     color += "90"; // Valor de opacidad aproximadamente al 50%
     return color;
   };
+  //asignar colores 
+const staticColors = {
+  1: "#FF5733", // Color para la materia con ID 1
+  2: "#33FF57", // Color para la materia con ID 2
+  3: "#3366FF", // Color para la materia con ID 3
+  4: "#FF33CC", // Color para la materia con ID 4
+  5: "#FFFF33", // Color para la materia con ID 5
+  6: "#33FFFF", // Color para la materia con ID 6
+  7: "#A633FF", // Color para la materia con ID 7
+  // Agrega otros colores y IDs según corresponda
+};
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -316,6 +343,7 @@ const handleCourseChange = (event) => {
                     onDrop={(event) => handleDrop(event, day, timeSlot)}
                     onDragOver={(event) => event.preventDefault()}
                     className="schedule-cell"
+                    
                   >
                     {schedule
                       .filter((item) => item.day === day && item.timeSlot === timeSlot)
@@ -323,7 +351,7 @@ const handleCourseChange = (event) => {
                         <div
                          key={`${day}-${timeSlot}-${item.subject}`} // Utiliza una clave única
                          className="materia-button"
-                         style={{ backgroundColor: subjectColors[item.subject] || generateRandomColor() }}
+                         style={{ backgroundColor: subjectColors[item.subject] }}
                         >
                           {item.subject}
                           <button className="delete-button" onClick={() => handleDelete(day, timeSlot, item.subject)}>
@@ -348,7 +376,7 @@ const handleCourseChange = (event) => {
             draggable
             onDragStart={(event) => event.dataTransfer.setData("text/plain", subject.SUB_NAME)}
             className="materia-button"
-            style={{ backgroundColor: subjectColors[subject.SUB_NAME] || generateRandomColor() }}
+            style={{ backgroundColor: staticColors[subject.SUB_ID] }}
           >
             {subject.SUB_NAME}
           </div>
@@ -367,6 +395,8 @@ const handleCourseChange = (event) => {
       ))}
       </select>
       <button onClick={handleSaveSchedule} className="btn save-button">Guardar Horario</button>
+      {showSuccessMessage && <p>Horario guardado con éxito</p>} {/* Mostrar el mensaje de éxito si showSuccessMessage es verdadero */}
+
     </div>
    </div>
     
