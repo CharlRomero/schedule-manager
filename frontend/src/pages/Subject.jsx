@@ -158,7 +158,7 @@ export const Subject = () => {
               onChange={handle}
             />
           </section>
-          <Button className="Button" title="Editar" />
+          {data.SUB_NAME.length > 0 && <Button className="Button" title="Editar" />}
         </form>
       </Modal>
       <Modal
@@ -177,7 +177,7 @@ export const Subject = () => {
               onChange={handle}
             />
           </section>
-          <Button className="Button" title="Agregar" />
+          {data.SUB_NAME.length > 0 && <Button className="Button" title="Agregar" />}
         </form>
       </Modal>
     </section>

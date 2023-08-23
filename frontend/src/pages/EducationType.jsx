@@ -146,7 +146,7 @@ export const EducationType = () => {
               onChange={handle}
             />
           </section>
-          <Button className="Button" title="Editar" />
+          {data.TYPE_NAME.length > 0 && <Button className="Button" title="Editar" />}
         </form>
       </Modal>
       <Modal
@@ -165,7 +165,7 @@ export const EducationType = () => {
               className="Form-inputs--input"
             />
           </section>
-          <Button className="Button" title="Agregar" />
+          {data.TYPE_NAME.length > 0 && <Button className="Button" title="Editar" />}
         </form>
       </Modal>
     </section>

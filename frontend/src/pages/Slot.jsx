@@ -11,7 +11,7 @@ const apiURL = import.meta.env.VITE_API;
 
 const thead = ["N°", "Hora Inicial", "Hora Final", ""];
 
-export const Slot = () => {
+export const  Slot = () => {
   const [activeCreate, setActiveCreate] = useState(false);
   const [activeUpdate, setActiveUpdate] = useState(false);
   const [data, setData] = useState({
@@ -188,12 +188,14 @@ export const Slot = () => {
               type="time"
               defaultValue={data.SLOT_INITIME}
               onChange={handleInitHour}
+              required
             />
             <input
               className="Form-inputs--input"
               type="time"
               defaultValue={data.SLOT_ENDTIME}
               onChange={handleEndHour}
+              required
             />
             <Button className="Button" title="Agregar" />
           </section>

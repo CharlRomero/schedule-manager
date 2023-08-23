@@ -64,6 +64,11 @@ export const Period = () => {
     axios.delete(`${apiURL}period/${id}`).then(() => window.location.reload());
   };
 
+  function validatePeriod(str) {
+    const regex = /^(20\d{2})-(20\d{2})$/;
+    return regex.test(str);
+  }
+
   return (
     <section className="Table">
       <section className="Table-buttons">
@@ -156,7 +161,9 @@ export const Period = () => {
               onChange={handle}
             />
           </section>
-          <Button className="Button" title="Editar" />
+          {validatePeriod(data.PER_CODE) && (
+            <Button className="Button" title="Editar" />
+          )}
         </form>
       </Modal>
       <Modal
@@ -175,7 +182,9 @@ export const Period = () => {
               onChange={handle}
             />
           </section>
-          <Button className="Button" title="Agregar" />
+          {validatePeriod(data.PER_CODE) && (
+            <Button className="Button" title="Agregar" />
+          )}
         </form>
       </Modal>
     </section>

@@ -36,6 +36,14 @@ export const Room = () => {
     setData(newData);
   };
 
+  function validateInput(str) {
+    if (str.length !== 1) {
+      return false;
+    }
+    const codChar = str.charCodeAt(0);
+    return codChar >= 65 && codChar <= 90;
+  }
+
   const submit = (e) => {
     e.preventDefault();
     axios
@@ -150,7 +158,9 @@ export const Room = () => {
               onChange={handle}
             />
           </section>
-          <Button className="Button" title="Editar" />
+          {validateInput(data.ROOM_NAME) && (
+            <Button className="Button" title="Editar" />
+          )}
         </form>
       </Modal>
       <Modal
@@ -169,7 +179,9 @@ export const Room = () => {
               className="Form-inputs--input"
             />
           </section>
-          <Button className="Button" title="Agregar" />
+          {validateInput(data.ROOM_NAME) && (
+            <Button className="Button" title="Agregar" />
+          )}
         </form>
       </Modal>
     </section>
