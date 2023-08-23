@@ -1,10 +1,9 @@
 import { useState } from "react";
-
 import { useFetch } from "../util/useFetch";
-
 import { DataTable } from "../components/DataTable";
 import { Button } from "../components/button/Button";
 import Modal from "../components/modals/Modal";
+import axios from "axios";
 
 const apiURL = import.meta.env.VITE_API;
 
@@ -12,6 +11,7 @@ const thead = ["N°", "Grado", "Paralelo", "Educación", "Periodo", ""];
 
 export const Course = () => {
   const [active, setActive] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
   const [cou, setCou] = useState({
     yearLvl: "",
     room: "",
@@ -25,6 +25,16 @@ export const Course = () => {
     ROOM_NAME: "",
     TYPE_NAME: "",
     PER_CODE: "",
+    YEAR_ID: "",
+    PER_ID: "",
+    ROOM_ID: "",
+  });
+
+  const [course, setCourse] = useState({
+    COU_ID: 1,
+    YEAR_ID: 1,
+    PER_ID: 1,
+    ROOM_ID: 1,
   });
 
   const courses = useFetch(`${apiURL}course`);
@@ -36,50 +46,129 @@ export const Course = () => {
     setActive(!active);
   };
 
+  const toggleCreate = () => {
+    setCourse({
+      ...course,
+      YEAR_ID: educationyears[0].YEAR_ID,
+      PER_ID: periods[0].PER_ID,
+      ROOM_ID: rooms[0].ROOM_ID,
+    });
+    setActiveModal(!activeModal);
+  };
+
+  const create = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${apiURL}course`, {
+        ...course,
+      })
+      .then(() => window.location.reload());
+  };
+
+  const handleEducationYear = (e) => {
+    const newData = { ...data };
+    newData["YEAR_LEVEL"] = e.target.value;
+    setData(newData);
+    setCourse({
+      ...course,
+      YEAR_ID: educationyears.find(
+        (element) => element.YEAR_LEVEL === e.target.value
+      ).YEAR_ID,
+    });
+  };
+
   const handlePeriod = (e) => {
     const newData = { ...data };
     newData["PER_CODE"] = e.target.value;
     setData(newData);
+    setCourse({
+      ...course,
+      PER_ID: periods.find((element) => element.PER_CODE === e.target.value)
+        .PER_ID,
+    });
   };
 
   const handleEducationType = (e) => {
     const newData = { ...data };
     newData["TYPE_NAME"] = e.target.value;
     setData(newData);
+    setCourse({
+      ...course,
+      ROOM_ID: rooms.find((element) => element.ROOM_NAME === e.target.value)
+        .ROOM_ID,
+    });
   };
 
   const submitEdit = (e) => {
     e.preventDefault();
-    axios.path(`${apiURL}educationyear/${data.COU_ID}`);
+    axios
+      .patch(`${apiURL}course/${data.COU_ID}`, {
+        ...course,
+      })
+      .then(() => window.location.reload());
+  };
+
+  const deleteCourse = (e, id) => {
+    e.preventDefault();
+    axios.delete(`${apiURL}course/${id}`).then(() => window.location.reload());
   };
 
   return (
     <section className="Table">
+      <section className="Table-buttons">
+        <Button
+          className="Button Table-buttons--right"
+          title="Agregar"
+          onClick={toggleCreate}
+        >
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            className="Button-svg"
+          >
+            <path d="M11.5 0c6.347 0 11.5 5.153 11.5 11.5s-5.153 11.5-11.5 11.5-11.5-5.153-11.5-11.5 5.153-11.5 11.5-11.5zm0 1c5.795 0 10.5 4.705 10.5 10.5s-4.705 10.5-10.5 10.5-10.5-4.705-10.5-10.5 4.705-10.5 10.5-10.5zm.5 10h6v1h-6v6h-1v-6h-6v-1h6v-6h1v6z" />
+          </svg>
+        </Button>
+      </section>
       <DataTable className="DataTable" title="Cursos" thead={thead}>
-        {courses.map((course, key) => (
+        {courses.map((c, key) => (
           <tr key={key} className="DataTable-tr">
-            <td className="DataTable-td">{key + 1}</td>
-            <td className="DataTable-td">{course.YEAR_LEVEL}</td>
-            <td className="DataTable-td">{course.ROOM_NAME}</td>
-            <td className="DataTable-td">{course.TYPE_NAME}</td>
-            <td className="DataTable-td">{course.PER_CODE}</td>
+            <td className="DataTable-td">{c.COU_ID}</td>
+            <td className="DataTable-td">{c.YEAR_LEVEL}</td>
+            <td className="DataTable-td">{c.ROOM_NAME}</td>
+            <td className="DataTable-td">{c.TYPE_NAME}</td>
+            <td className="DataTable-td">{c.PER_CODE}</td>
             <td className="DataTable-td">
               <div className="DataTable-buttons">
                 <button
                   onClick={() => {
                     setActive(!active);
+                    setCourse({
+                      ...course,
+                      COU_ID: c.COU_ID,
+                      YEAR_ID: educationyears.find(
+                        (e) => e.YEAR_LEVEL === c.YEAR_LEVEL
+                      ).YEAR_ID,
+                      PER_ID: periods.find((e) => e.PER_CODE === c.PER_CODE)
+                        .PER_ID,
+                      ROOM_ID: rooms.find((e) => e.ROOM_NAME === c.ROOM_NAME)
+                        .ROOM_ID,
+                    });
                     setData({
-                      COU_ID: course.COU_ID,
-                      YEAR_LEVEL: course.YEAR_LEVEL,
-                      ROOM_NAME: course.ROOM_NAME,
-                      TYPE_NAME: course.TYPE_NAME,
-                      PER_CODE: course.PER_CODE,
+                      COU_ID: c.COU_ID,
+                      YEAR_LEVEL: c.YEAR_LEVEL,
+                      ROOM_NAME: c.ROOM_NAME,
+                      TYPE_NAME: c.TYPE_NAME,
+                      PER_CODE: c.PER_CODE,
                     });
                     setCou({
-                      yearLvl: course.YEAR_LEVEL,
-                      room: course.ROOM_NAME,
-                      type: course.TYPE_NAME,
-                      period: course.PER_CODE,
+                      yearLvl: c.YEAR_LEVEL,
+                      room: c.ROOM_NAME,
+                      type: c.TYPE_NAME,
+                      period: c.PER_CODE,
                     });
                   }}
                 >
@@ -97,7 +186,11 @@ export const Course = () => {
                     />
                   </svg>
                 </button>
-                <button>
+                <button
+                  onClick={(e) => {
+                    deleteCourse(e, c.COU_ID);
+                  }}
+                >
                   <svg
                     clipRule="evenodd"
                     fillRule="evenodd"
@@ -122,11 +215,68 @@ export const Course = () => {
         <h3 className="Modal-title">{`Editar curso: ${cou.yearLvl} ${cou.room} ${cou.type}`}</h3>
         <form className="Form" onSubmit={(e) => submitEdit(e)}>
           <section className="Form-inputs">
-            <input
-              type="text"
+            <select
               className="Form-inputs--input"
+              onChange={handleEducationYear}
               defaultValue={cou.yearLvl}
-            />
+            >
+              {educationyears.map((year, key) => (
+                <option key={key} defaultValue={data.PER_CODE}>
+                  {year.YEAR_LEVEL}
+                </option>
+              ))}
+            </select>
+            <select
+              className="Form-inputs--input"
+              onChange={handleEducationType}
+              defaultValue={cou.room}
+            >
+              {rooms.map((element, key) => (
+                <option
+                  key={key}
+                  defaultValue={data.TYPE_NAME}
+                  onClick={() => alert(element.ROOM_ID)}
+                >
+                  {element.ROOM_NAME}
+                </option>
+              ))}
+            </select>
+            <select
+              className="Form-inputs--input"
+              onChange={handlePeriod}
+              defaultValue={cou.period}
+            >
+              {periods.map((period, key) => (
+                <option key={key} defaultValue={data.PER_CODE}>
+                  {period.PER_CODE}
+                </option>
+              ))}
+            </select>
+          </section>
+          {educationyears.length != 0 &&
+            periods.length != 0 &&
+            rooms.length != 0 && <Button className="Button" title="Editar" />}
+        </form>
+      </Modal>
+      <Modal
+        className="Modal"
+        resize="Portal-window--room"
+        active={activeModal}
+        toggle={toggleCreate}
+      >
+        <h3 className="Modal-title">Ingresar nuevo curso</h3>
+        <form onSubmit={(e) => create(e)} className="Form">
+          <section className="Form-inputs">
+            <select
+              className="Form-inputs--input"
+              onChange={handleEducationYear}
+            >
+              {educationyears.map((year, key) => (
+                <option key={key} defaultValue={data.PER_CODE}>
+                  {year.YEAR_LEVEL}
+                </option>
+              ))}
+            </select>
             <select
               className="Form-inputs--input"
               onChange={handleEducationType}
@@ -149,7 +299,10 @@ export const Course = () => {
               ))}
             </select>
           </section>
-          <Button className="Button" title="Editar" />
+
+          {educationyears.length != 0 &&
+            periods.length != 0 &&
+            rooms.length != 0 && <Button className="Button" title="Agregar" />}
         </form>
       </Modal>
     </section>
