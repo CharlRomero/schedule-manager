@@ -1,3 +1,6 @@
+CREATE DATABASE schedule;
+USE schedule;
+
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2023-08-12 16:14:55                          */
@@ -121,20 +124,21 @@ alter table SUBJECT add constraint FK_CORRESPONDS foreign key (SLOT_ID)
 alter table SUBJECT add constraint FK_HAS foreign key (COU_ID)
       references COURSE (COU_ID) on delete restrict on update restrict;
 
-create view COURSE_VW as select YEAR_LEVEL, ROOM_NAME, TYPE_NAME, PER_CODE from course c, period p, room r, educationyear e, educationtype t where c.YEAR_ID = e.YEAR_ID and t.TYPE_ID = e.TYPE_ID and c.PER_ID = p.PER_ID and c.ROOM_ID = r.ROOM_ID;
+create view COURSE_VW as select COU_ID, YEAR_LEVEL, ROOM_NAME, TYPE_NAME, PER_CODE from COURSE c, PERIOD p, ROOM r, EDUCATIONYEAR e, EDUCATIONTYPE t where c.YEAR_ID = e.YEAR_ID and t.TYPE_ID = e.TYPE_ID and c.PER_ID = p.PER_ID and c.ROOM_ID = r.ROOM_ID;
 
-insert into room (ROOM_NAME) values ('A');
-insert into room (ROOM_NAME) values ('B');
-insert into room (ROOM_NAME) values ('C');
+insert into ROOM (ROOM_NAME) values ('A');
+insert into ROOM (ROOM_NAME) values ('B');
+insert into ROOM (ROOM_NAME) values ('C');
 
-insert into period (PER_CODE) values ('2021-2022');
-insert into period (PER_CODE) values ('2022-2023');
+insert into PERIOD (PER_CODE) values ('2021-2022');
+insert into PERIOD (PER_CODE) values ('2022-2023');
 
-insert into educationtype (TYPE_NAME) values ('Educación Básica');
-insert into educationtype (TYPE_NAME) values ('Educación Inicial');
+insert into EDUCATIONTYPE (TYPE_NAME) values ('Educación Básica');
+insert into EDUCATIONTYPE (TYPE_NAME) values ('Educación Inicial');
 
-insert into educationyear (TYPE_ID, YEAR_LEVEL) values (1, '1ero'), (1, '2do'), (1, '3ero'), (2, '1ero'), (2, '2do'), (2, '3ero');
+insert into EDUCATIONYEAR (TYPE_ID, YEAR_LEVEL) values (1, '1ero'), (1, '2do'), (1, '3ero'), (2, '1ero'), (2, '2do'), (2, '3ero');
 
-insert into slot (SLOT_INITIME, SLOT_ENDTIME) values ('07:00', '07:30'), ('08:00', '08:30'), ('09:00', '09:30');
+insert into SLOT (SLOT_INITIME, SLOT_ENDTIME) values ('07:00', '07:30'), ('08:00', '08:30'), ('09:00', '09:30');
 
-insert into course (YEAR_ID, PER_ID, ROOM_ID) values (1,1,1),(1,1,2),(1,1,3),(2,1,1),(2,1,2),(2,1,3),(3,1,1),(3,1,2),(3,1,3),(1,2,1),(1,2,2),(1,2,3);
+insert into COURSE (YEAR_ID, PER_ID, ROOM_ID) values (1,1,1),(1,1,2),(1,1,3),(2,1,1),(2,1,2),(2,1,3),(3,1,1),(3,1,2),(3,1,3),(1,2,1),(1,2,2),(1,2,3);
+

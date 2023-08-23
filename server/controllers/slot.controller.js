@@ -2,9 +2,7 @@ import { pool } from "../database.js";
 
 export const getSlot = async (req, res) => {
   try {
-    const [rows] = await pool.query(
-      "SELECT *FROM SLOT"
-    );
+    const [rows] = await pool.query("SELECT *FROM SLOT");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
@@ -47,19 +45,31 @@ export const updateSlot = async (req, res) => {
 };
 
 export const deleteSlot = async (req, res) => {
-  const { id } = req.params;
-
-  const [result] = await pool.query(
-    "UPDATE SLOT SET SLOT_STATUS = FALSE WHERE SLOT_ID = ?",
-    [id]
-  );
-
-  if (result.affectedRows === 0)
-    return res.status(404).json({
-      message: "Slot not found",
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query("DELETE FROM SLOT WHERE SLOT_ID = ?", [id]);
+    res.json(rows);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something goes wrong",
     });
-
-  const [rows] = await pool.query("SELECT * FROM SLOT WHERE SLOT_ID = ?", [id]);
-
-  res.json(rows);
+  }
 };
+
+// export const deleteSlot = async (req, res) => {
+//   const { id } = req.params;
+
+//   const [result] = await pool.query(
+//     "UPDATE SLOT SET SLOT_STATUS = FALSE WHERE SLOT_ID = ?",
+//     [id]
+//   );
+
+//   if (result.affectedRows === 0)
+//     return res.status(404).json({
+//       message: "Slot not found",
+//     });
+
+//   const [rows] = await pool.query("SELECT * FROM SLOT WHERE SLOT_ID = ?", [id]);
+
+//   res.json(rows);
+// };

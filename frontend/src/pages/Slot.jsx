@@ -11,7 +11,7 @@ const apiURL = import.meta.env.VITE_API;
 
 const thead = ["N°", "Hora Inicial", "Hora Final", ""];
 
-export const  Slot = () => {
+export const Slot = () => {
   const [activeCreate, setActiveCreate] = useState(false);
   const [activeUpdate, setActiveUpdate] = useState(false);
   const [data, setData] = useState({
@@ -20,6 +20,8 @@ export const  Slot = () => {
     SLOT_ENDTIME: "",
     SLOT_WEEKEND: "",
   });
+
+  const [isValidPeriod, setIsValidPeriod] = useState(false);
 
   const URL = `${apiURL}slot`;
   const slots = useFetch(URL);
@@ -30,10 +32,12 @@ export const  Slot = () => {
   };
 
   const toggleUpdate = () => {
+    setIsValidPeriod(false);
     setActiveUpdate(!activeUpdate);
   };
 
   const toggleCreate = () => {
+    setIsValidPeriod(false);
     setActiveCreate(!activeCreate);
   };
 
@@ -44,7 +48,7 @@ export const  Slot = () => {
 
   const submitEdit = (e) => {
     e.preventDefault();
-
+    setIsValidPeriod(false);
     axios
       .patch(`${apiURL}slot/${data.SLOT_ID}`, {
         SLOT_INITIME: data.SLOT_INITIME,
@@ -55,6 +59,7 @@ export const  Slot = () => {
 
   const submitCreate = (e) => {
     e.preventDefault();
+    setIsValidPeriod(false);
     axios
       .post(`${apiURL}slot`, {
         SLOT_INITIME: data.SLOT_INITIME,
@@ -74,6 +79,31 @@ export const  Slot = () => {
     newData["SLOT_ENDTIME"] = e.target.value;
     setData(newData);
   };
+
+  function isTimeRangeOverlapping(startTime1, endTime1, startTime2, endTime2) {
+    const start1 = new Date(`1970-01-01T${startTime1}`);
+    const end1 = new Date(`1970-01-01T${endTime1}`);
+    const start2 = new Date(`1970-01-01T${startTime2}`);
+    const end2 = new Date(`1970-01-01T${endTime2}`);
+
+    return start1 < end2 && start2 < end1;
+  }
+
+  function validateNewTimeSlot(newStartTime, newEndTime, apiResponse) {
+    for (const slot of apiResponse) {
+      if (
+        isTimeRangeOverlapping(
+          newStartTime,
+          newEndTime,
+          slot.SLOT_INITIME,
+          slot.SLOT_ENDTIME
+        )
+      ) {
+        return false; // Hay superposición, no es válido
+      }
+    }
+    return true; // No hay superposición, es válido
+  }
 
   return (
     <section className="Table">
@@ -170,7 +200,22 @@ export const  Slot = () => {
               defaultValue={data.SLOT_ENDTIME}
               onChange={handleEndHour}
             />
-            <Button className="Button" title="Editar" />
+            <button
+              className="Button"
+              type="button"
+              onClick={() => {
+                setIsValidPeriod(
+                  validateNewTimeSlot(
+                    data.SLOT_INITIME,
+                    data.SLOT_ENDTIME,
+                    slots
+                  )
+                );
+              }}
+            >
+              Validar
+            </button>
+            {isValidPeriod && <Button className="Button" title="Editar" />}
           </section>
         </form>
       </Modal>
@@ -186,18 +231,31 @@ export const  Slot = () => {
             <input
               className="Form-inputs--input"
               type="time"
-              defaultValue={data.SLOT_INITIME}
               onChange={handleInitHour}
               required
             />
             <input
               className="Form-inputs--input"
               type="time"
-              defaultValue={data.SLOT_ENDTIME}
               onChange={handleEndHour}
               required
             />
-            <Button className="Button" title="Agregar" />
+            <button
+              className="Button"
+              type="button"
+              onClick={() => {
+                setIsValidPeriod(
+                  validateNewTimeSlot(
+                    data.SLOT_INITIME,
+                    data.SLOT_ENDTIME,
+                    slots
+                  )
+                );
+              }}
+            >
+              Validar
+            </button>
+            {isValidPeriod && <Button className="Button" title="Agregar" />}
           </section>
         </form>
       </Modal>
